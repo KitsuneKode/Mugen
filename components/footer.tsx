@@ -3,8 +3,31 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Github, Twitter, Linkedin, Heart } from 'lucide-react';
+import { Logo } from './logo';
 
 export default function Footer() {
+  const handleScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string
+  ) => {
+    e.preventDefault();
+
+    try {
+      const targetElement = document.querySelector(targetId);
+
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }
+    } catch {
+      e.defaultPrevented = false;
+
+      return;
+    }
+  };
+
   const footerLinks = [
     {
       title: 'Product',
@@ -12,33 +35,33 @@ export default function Footer() {
         { label: 'Features', href: '#features' },
         { label: 'Pricing', href: '#pricing' },
         { label: 'Roadmap', href: '#roadmap' },
-        { label: 'Documentation', href: '/docs' },
+        { label: 'Documentation', href: '#docs' },
       ],
     },
     {
       title: 'Company',
       links: [
-        { label: 'About', href: '/about' },
-        { label: 'Blog', href: '/blog' },
-        { label: 'Careers', href: '/careers' },
-        { label: 'Contact', href: '/contact' },
+        { label: 'About', href: '#about' },
+        { label: 'Blog', href: '#blog' },
+        { label: 'Careers', href: '#careers' },
+        { label: 'Contact', href: 'mailto:bhuyanmanash2002@gmail.com' },
       ],
     },
     {
       title: 'Legal',
       links: [
-        { label: 'Privacy', href: '/privacy' },
-        { label: 'Terms', href: '/terms' },
-        { label: 'Status', href: '/status' },
+        { label: 'Privacy', href: '#privacy' },
+        { label: 'Terms', href: '#terms' },
+        { label: 'Status', href: '#status' },
         { label: 'Cookie Settings', href: '#cookies' },
       ],
     },
   ];
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com' },
-    { icon: Twitter, href: 'https://twitter.com' },
-    { icon: Linkedin, href: 'https://linkedin.com' },
+    { icon: Github, href: 'https://github.com/kitsunekode' },
+    { icon: Twitter, href: 'https://x.com/kitsunekode' },
+    { icon: Linkedin, href: 'https://linkedin.com/in/kitsunekode' },
   ];
 
   return (
@@ -59,9 +82,14 @@ export default function Footer() {
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: 'spring', stiffness: 400 }}
               >
-                <span className="text-2xl font-bold text-primary">
-                  Second Brain
-                </span>
+                <div className="flex p-2 gap-2">
+                  <Logo
+                    width={90}
+                    height={72}
+                    className="h-10 w-10  text-primary animate-float"
+                  />
+                  <span className="text-2xl font-bold text-primary">Mugen</span>
+                </div>
               </motion.div>
             </Link>
             <p className="text-muted-foreground mb-4">
@@ -104,6 +132,7 @@ export default function Footer() {
                   >
                     <Link
                       href={link.href}
+                      onClick={(e) => handleScroll(e, link.href)}
                       className="text-muted-foreground hover:text-primary transition-colors"
                     >
                       {link.label}
@@ -135,7 +164,7 @@ export default function Footer() {
             </motion.a>
           </div>
           <div className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Second Brain. All rights reserved.
+            © 2025 Mugen. All rights reserved.
           </div>
         </motion.div>
       </div>

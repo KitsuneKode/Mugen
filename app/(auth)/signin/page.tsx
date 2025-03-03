@@ -1,6 +1,7 @@
-import Link from "next/link"
-import { Brain } from "lucide-react"
-import { Button } from "@/components/ui/button"
+'use client';
+import Link from 'next/link';
+import { Brain } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function SignIn() {
   return (
@@ -10,7 +11,9 @@ export default function SignIn() {
           <div className="flex flex-col items-center mb-8">
             <Brain className="h-12 w-12 text-primary mb-4" />
             <h1 className="text-2xl font-bold halloween-font">Welcome Back</h1>
-            <p className="text-muted-foreground text-center mt-2">Sign in to access your Second Brain</p>
+            <p className="text-muted-foreground text-center mt-2">
+              Sign in to access your Second Brain
+            </p>
           </div>
 
           <form className="space-y-4">
@@ -31,7 +34,10 @@ export default function SignIn() {
                 <label htmlFor="password" className="text-sm font-medium">
                   Password
                 </label>
-                <Link href="/forgot-password" className="text-xs text-primary hover:underline">
+                <Link
+                  href="/forgot-password"
+                  className="text-xs text-primary hover:underline"
+                >
                   Forgot password?
                 </Link>
               </div>
@@ -48,7 +54,7 @@ export default function SignIn() {
 
           <div className="mt-6 pt-6 border-t border-border text-center">
             <p className="text-sm text-muted-foreground">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{' '}
               <Link href="/signup" className="text-primary hover:underline">
                 Sign up
               </Link>
@@ -57,6 +63,5 @@ export default function SignIn() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

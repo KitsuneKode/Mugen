@@ -17,9 +17,9 @@ import {
   YoutubeIcon,
 } from 'lucide-react';
 
-export default function BentoFeatures() {
+export default function Features() {
   return (
-    <section className="py-16 px-4">
+    <section id="features" className="py-16 px-4">
       <div className="container mx-auto">
         <motion.div
           className="text-center mb-12"
@@ -499,7 +499,7 @@ export default function BentoFeatures() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FeatureCard
+          {/* <FeatureCard
             content={
               <div className="h-full flex flex-col">
                 <motion.h3
@@ -610,9 +610,9 @@ export default function BentoFeatures() {
                 </motion.div>
               </div>
             }
-          />
+          /> */}
 
-          <FeatureCard
+          {/* <FeatureCard
             content={
               <div className="h-full flex flex-col">
                 <motion.h3
@@ -685,7 +685,7 @@ export default function BentoFeatures() {
                 </motion.div>
               </div>
             }
-          />
+          /> */}
         </div>
       </div>
     </section>
@@ -706,7 +706,7 @@ function FeatureCard({
       whileInView={{ opacity: 1, y: 0 }}
       whileHover={{
         scale: 1.02,
-        boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+        boxShadow: '0 8px 30px hsl(var(--primary)/0.3)',
       }}
       transition={{
         type: 'spring',

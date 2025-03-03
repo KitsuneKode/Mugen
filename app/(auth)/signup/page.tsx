@@ -1,6 +1,8 @@
-import Link from "next/link"
-import { Brain } from "lucide-react"
-import { Button } from "@/components/ui/button"
+'use client';
+
+import Link from 'next/link';
+import { Brain } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function SignUp() {
   return (
@@ -9,8 +11,12 @@ export default function SignUp() {
         <div className="bg-card border border-border rounded-xl p-8 shadow-xl">
           <div className="flex flex-col items-center mb-8">
             <Brain className="h-12 w-12 text-primary mb-4" />
-            <h1 className="text-2xl font-bold halloween-font">Create Your Second Brain</h1>
-            <p className="text-muted-foreground text-center mt-2">Sign up to start organizing your digital life</p>
+            <h1 className="text-2xl font-bold halloween-font">
+              Create Your Second Brain
+            </h1>
+            <p className="text-muted-foreground text-center mt-2">
+              Sign up to start organizing your digital life
+            </p>
           </div>
 
           <form className="space-y-4">
@@ -71,11 +77,11 @@ export default function SignUp() {
                 className="h-4 w-4 rounded border-input bg-background text-primary focus:outline-hidden focus:ring-2 focus:ring-primary/50"
               />
               <label htmlFor="terms" className="text-xs text-muted-foreground">
-                I agree to the{" "}
+                I agree to the{' '}
                 <Link href="/terms" className="text-primary hover:underline">
                   Terms of Service
-                </Link>{" "}
-                and{" "}
+                </Link>{' '}
+                and{' '}
                 <Link href="/privacy" className="text-primary hover:underline">
                   Privacy Policy
                 </Link>
@@ -87,7 +93,7 @@ export default function SignUp() {
 
           <div className="mt-6 pt-6 border-t border-border text-center">
             <p className="text-sm text-muted-foreground">
-              Already have an account?{" "}
+              Already have an account?{' '}
               <Link href="/signin" className="text-primary hover:underline">
                 Sign in
               </Link>
@@ -96,6 +102,5 @@ export default function SignUp() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
