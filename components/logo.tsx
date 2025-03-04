@@ -15,7 +15,6 @@ export const Logo = ({
       alt="Logo"
       width={width}
       height={height}
-      layout="intrinsic"
       priority
     />
   );

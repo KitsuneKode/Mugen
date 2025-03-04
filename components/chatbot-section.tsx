@@ -16,11 +16,20 @@ export default function ChatbotSection() {
       (entries) => {
         const [entry] = entries;
         if (entry.isIntersecting) {
-          // Auto-scroll to bottom once when the chat comes into view
-          scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+          // Calculate position to show chat section 1/3 from top
+          const targetPosition =
+            scrollRef.current!.offsetTop - window.innerHeight / 3;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth',
+          });
+          observer.disconnect();
         }
       },
-      { threshold: 0.01 }
+      {
+        threshold: 0.1,
+        rootMargin: '100px',
+      }
     );
 
     observer.observe(scrollRef.current);

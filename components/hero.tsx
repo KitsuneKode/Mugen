@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Logo } from './logo';
+import { Button } from './ui/button';
+import Link from 'next/link';
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
@@ -80,12 +82,16 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            <button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium shadow-md hover:shadow-xl hover:bg-primary/90 transition-all glow">
-              Get Started
-            </button>
-            <button className="px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-all shadow-md hover:shadow-lg glow">
-              Explore Public Brains
-            </button>
+            <Link href="/dashboard">
+              <Button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium shadow-md hover:shadow-xl hover:bg-primary/90 transition-all glow">
+                Get Started
+              </Button>
+            </Link>
+            <Link href="/explore">
+              <Button className="px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-all shadow-md hover:shadow-lg glow">
+                Explore Public Brains
+              </Button>
+            </Link>
           </motion.div>
         </motion.div>
       </div>

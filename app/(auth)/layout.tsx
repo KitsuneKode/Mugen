@@ -6,9 +6,7 @@ export const metadata: Metadata = {
   title: 'Mugen Signup',
   description:
     'Organize your digital life with Second Brain - a place to store, connect, and interact with your content from across the web.',
-  icons: {
-    icon: '/logo.svg',
-  },
+  icons: '/logo.svg',
 };
 
 export default function Layout({
