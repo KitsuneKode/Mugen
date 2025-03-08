@@ -3,6 +3,7 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import CTAChatbot from '@/components/call-to-action-chatbox';
+
 export default async function ChatPage() {
   const session = await getServerSession(authOptions);
 

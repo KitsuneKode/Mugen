@@ -75,3 +75,74 @@ export const POST = async (req: NextRequest) => {
     );
   }
 };
+
+export const DELETE = async (req: NextRequest) => {
+  try {
+    const session = await getServerSession(authOptions);
+    console.log(session);
+
+    if (!session || !session?.user) {
+      return NextResponse.json(
+        { error: 'Unauthorized: No userId found' },
+        { status: 401 }
+      );
+    }
+    const userId = (session as session).user.id;
+
+    const id = req.nextUrl.searchParams.get('contentId');
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Content ID is required' },
+        { status: 400 }
+      );
+    }
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'Unauthorized - No userId found' },
+        { status: 401 }
+      );
+    }
+
+    await db.$transaction(async (tx) => {
+      const existingContent = await tx.content.findFirst({
+        where: {
+          id: Number(id),
+          userId: Number(userId),
+        },
+      });
+
+      if (!existingContent) {
+        return NextResponse.json(
+          {
+            error:
+              'Content not found or you do not have permission to delete it',
+          },
+          { status: 500 }
+        );
+      }
+
+      await tx.content.delete({
+        where: {
+          id: Number(id),
+          userId: Number(userId),
+        },
+      });
+
+      return NextResponse.json(
+        {
+          message: 'Content successfully deleted',
+          deletedContentId: id,
+        },
+        { status: 200 }
+      );
+    });
+  } catch (err) {
+    console.error('Error during deleting content:', err);
+    return NextResponse.json(
+      { error: 'Internal Server Error error while deleting content' },
+      { status: 500 }
+    );
+  }
+};

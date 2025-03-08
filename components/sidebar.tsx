@@ -58,7 +58,9 @@ export default function Sidebar() {
             width={8}
             height={8}
             className={
-              isCollapsed ? 'h-8 w-8 mr-0 pr-0 scale-110' : 'h-10 w-12 mx-2'
+              isCollapsed
+                ? 'h-8 w-8 mr-0 pr-0 scale-110 ml-1'
+                : 'h-10 w-12 mx-2'
             }
           />
           {!isCollapsed && (
@@ -89,7 +91,8 @@ export default function Sidebar() {
                     'flex items-center gap-3 px-3 py-2 rounded-md transition-colors',
                     pathname === item.href
                       ? 'bg-primary text-primary'
-                      : 'text-muted-foreground hover:bg-primary/15 hover:text-primary'
+                      : 'text-muted-foreground hover:bg-primary/15 hover:text-primary',
+                    !isCollapsed && 'ml-6'
                   )}
                 >
                   <item.icon

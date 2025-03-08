@@ -1,5 +1,5 @@
+import { ContentButtons } from '@/components/content-buttons';
 import ExploreGrid from '@/components/explore-grid';
-import { Button } from '@/components/ui/button';
 export default function Dashboard() {
   return (
     <div className="py-24 px-4">
@@ -13,14 +13,7 @@ export default function Dashboard() {
               Organize, connect, and interact with your digital content
             </p>
           </div>
-          <div className="flex gap-4">
-            <Button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-              Add Content
-            </Button>
-            <Button className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors">
-              Share Brain
-            </Button>
-          </div>
+          <ContentButtons />
         </div>
 
         <ExploreGrid />

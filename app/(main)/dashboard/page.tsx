@@ -1,14 +1,14 @@
+import { ContentButtons } from '@/components/content-buttons';
 import EmbedsGrid from '@/components/embeds-grid';
-import { Button } from '@/components/ui/button';
+import { Redirect } from '@/components/redirect';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
-    return redirect('/signin');
+    return <Redirect to="/signin" />;
   }
 
   return (
@@ -23,14 +23,7 @@ export default async function Dashboard() {
               Save and organize content from across the web
             </p>
           </div>
-          <div className="flex gap-4">
-            <Button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-              Add New Content
-            </Button>
-            <Button className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors">
-              Filter
-            </Button>
-          </div>
+          <ContentButtons />
         </div>
         <EmbedsGrid />
       </div>

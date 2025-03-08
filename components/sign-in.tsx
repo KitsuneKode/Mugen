@@ -70,11 +70,7 @@ export default function SignInComponent() {
     });
 
     toast.dismiss(loadId);
-    if (!res?.error) {
-      toast.success('Signed In Successfully');
-      setCheckingPassword(false);
-      router.push('/dashboard');
-    } else {
+    if (res?.error) {
       // router.push('/error');
       if (res.status === 401) {
         toast.error('Invalid Credentials, try again!');
@@ -88,7 +84,11 @@ export default function SignInComponent() {
         toast.error('oops something went wrong..!');
       }
       setCheckingPassword(false);
+    } else {
+      setCheckingPassword(false);
+      router.push('/dashboard');
     }
+    toast.success('Signed In Successfully');
   };
 
   return (
