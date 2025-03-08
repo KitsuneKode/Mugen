@@ -83,7 +83,7 @@ export default function PricingSection() {
               key={index}
               className={`bg-card border ${
                 plan.popular ? 'border-primary' : 'border-border/50'
-              } rounded-xl overflow-hidden`}
+              } rounded-xl overflow-hidden transition-all duration-300 hover:bg-primary/10 hover:border-primary hover:shadow-lg`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}

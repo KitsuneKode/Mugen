@@ -27,12 +27,11 @@ model Content {
   id     Int         @id @unique @default(autoincrement())
   type   ContentType
   title  String
-  share  Boolean
   link   String
   Tags   Tag[]
   userId Int
   user   User        @relation(fields: [userId], references: [id])
-  Brain  Brain[]
+  Brains Brain[]
 }
 
 model Tag {
@@ -40,15 +39,26 @@ model Tag {
   tags     String    @unique
   Contents Content[]
   Users    User[]
+  Brains   Brain[]
 }
 
 model Brain {
   id       Int       @id @unique @default(autoincrement())
-  hash     String
-  userId   Int       @unique
+  userId   Int
   name     String
+  share    Boolean   @default(false)
   user     User      @relation(fields: [userId], references: [id])
   Contents Content[]
+  linkId   Int?      @unique
+  Link     Link?
+  Tags     Tag[]
+}
+
+model Link {
+  id      Int    @id @unique @default(autoincrement())
+  hash    String
+  brainId Int    @unique
+  Brain   Brain  @relation(fields: [brainId], references: [id])
 }
 
 enum ContentType {

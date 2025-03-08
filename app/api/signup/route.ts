@@ -3,18 +3,25 @@ import { getValidationErrors, validate } from '@/lib/utils';
 import { userObject } from '@/lib/zod-schema';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
+import { Prisma } from '@prisma/client';
+
+interface RequestBody {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+}
 
 export const POST = async (req: NextRequest) => {
   try {
-    const { email, firstName, lastName, password } = await req.json();
-
+    const { email, firstName, lastName, password }: RequestBody =
+      await req.json();
     const result = validate(userObject, {
       email,
       firstName,
       lastName,
       password,
     });
-
     if (!result.success) {
       if (process.env.NODE_ENV !== 'production')
         console.log(getValidationErrors(result));
@@ -27,33 +34,41 @@ export const POST = async (req: NextRequest) => {
     }
     const name = `${firstName} ${lastName}`;
     const hashedPassword = await bcrypt.hash(password, 10);
-
     await db.user.create({
       data: {
-        email,
+        email: email.toLowerCase(),
         password: hashedPassword,
         name,
       },
     });
-
     return NextResponse.json({
       message: 'Sign up Successful',
     });
-  } catch (err: any) {
-    if (process.env.NODE_ENV !== 'production') console.error(err);
+  } catch (error) {
+    if (process.env.NODE_ENV !== 'production') console.error(error);
+
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return NextResponse.json(
+          {
+            message: 'User already exists',
+          },
+          { status: 403 }
+        );
+      }
+      return NextResponse.json(
+        {
+          message: 'Error :' + error.message,
+        },
+        { status: 403 }
+      );
+    }
 
     return NextResponse.json(
       {
-        message:
-          err?.code === 'P2002'
-            ? 'User already exists'
-            : err.code
-            ? 'An error occurred during signup'
-            : 'Internal Server Error',
+        message: 'Internal Server Error',
       },
-      {
-        status: err?.code === 'P2002' ? 403 : 500,
-      }
+      { status: 500 }
     );
   }
 };

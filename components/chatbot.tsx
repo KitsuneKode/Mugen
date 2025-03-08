@@ -1,16 +1,17 @@
-'use-client';
+'use client';
 
 import { Send, Bot, User } from 'lucide-react';
 
 import { motion } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
+import { Button } from './ui/button';
 
 type Message = {
   role: 'user' | 'assistant';
   content: string;
 };
 
-export default function ChatBot() {
+export default function ChatBot({ movement = true }: { movement?: boolean }) {
   const [input, setInput] = useState('');
 
   const [messages, setMessages] = useState<Message[]>([
@@ -36,7 +37,9 @@ export default function ChatBot() {
     // Simulate assistant response
     setTimeout(() => {
       const responses = [
+        `'I found several notes related to that topic in your Second Brain. Would you like me to summarize them?',
         'I found several notes related to that topic in your Second Brain. Would you like me to summarize them?',
+        'I found several notes related to that topic in your Second Brain. Would you like me to summarize them?'`,
         'Based on your saved content, here are some relevant insights that might help you with that.',
         "I've analyzed your notes and found some interesting connections you might want to explore.",
         "I don't have enough information about that in your Second Brain yet. Would you like to add some content on this topic?",
@@ -60,14 +63,18 @@ export default function ChatBot() {
     }
   }, [messages]);
   return (
-    <div className="max-w-3xl mx-auto">
+    <div
+      className={`max-w-3xl mx-auto max-h-screen ${
+        !movement ? 'min-w-[60%]' : ''
+      }`}
+    >
       <motion.div
         className="bg-card border border-border rounded-xl overflow-hidden shadow-lg"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{
           opacity: 1,
           y: 0,
-          rotate: [-1, 1, -1],
+          rotate: movement ? [-1, 1, -1] : 0,
           transition: {
             rotate: {
               repeat: Infinity,
@@ -80,7 +87,7 @@ export default function ChatBot() {
         }}
         whileHover={{
           rotate: 0,
-          scale: 1.1,
+          scale: movement ? 1.1 : 1.05,
           boxShadow: '0 8px 30px hsl(var(--primary)/0.45)',
           transition: {
             type: 'spring',
@@ -98,7 +105,9 @@ export default function ChatBot() {
 
         <div
           ref={chatContainerRef}
-          className="h-96 overflow-y-auto p-4 space-y-4 scroll-smooth"
+          className={`h-96 overflow-y-auto p-4 space-y-4 scroll-smooth ${
+            !movement ? 'h-[60vh]' : ''
+          }`}
         >
           {messages.map((message, index) => (
             <motion.div
@@ -166,13 +175,13 @@ export default function ChatBot() {
               placeholder="Ask your Second Brain..."
               className="flex-1 px-4 py-2 bg-background border border-input rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/50"
             />
-            <button
+            <Button
               type="submit"
-              className="p-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+              className="p-2 mt-1 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors hover:scale-110"
               disabled={!input.trim()}
             >
               <Send className="h-5 w-5" />
-            </button>
+            </Button>
           </div>
         </form>
       </motion.div>

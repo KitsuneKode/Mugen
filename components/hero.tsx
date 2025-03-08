@@ -3,9 +3,10 @@
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Logo } from './logo';
+import Logo from './logo';
 import { Button } from './ui/button';
 import Link from 'next/link';
+import { ThemeToggle } from './theme-toggle';
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
@@ -20,6 +21,7 @@ export default function Hero() {
     <section className="relative overflow-hidden py-20 md:py-28">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-linear-to-br from-primary/25 to-background -z-10" />
+      <ThemeToggle className={'absolute top-3 right-4 z-30'} />
 
       {/* Animated dots */}
       <div className="absolute inset-0 -z-5">
@@ -82,7 +84,7 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            <Link href="/dashboard">
+            <Link href="/signin">
               <Button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium shadow-md hover:shadow-xl hover:bg-primary/90 transition-all glow">
                 Get Started
               </Button>

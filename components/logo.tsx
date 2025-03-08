@@ -1,5 +1,6 @@
 import Image from 'next/image';
-export const Logo = ({
+
+const Logo = ({
   height,
   width,
   className,
@@ -9,13 +10,17 @@ export const Logo = ({
   className: string;
 }) => {
   return (
-    <Image
-      className={className}
-      src="/logo.svg"
-      alt="Logo"
-      width={width}
-      height={height}
-      priority
-    />
+    <div className={`${className}`}>
+      <Image
+        className={className}
+        src="/logo.svg"
+        alt="Logo"
+        width={width}
+        height={height}
+        priority
+      />
+    </div>
   );
 };
+
+export default Logo;

@@ -60,6 +60,8 @@ export default function SignInComponent() {
       });
       return;
     }
+    email.current = email.current.trim();
+
     setCheckingPassword(true);
     const res = await signIn('credentials', {
       email: email.current,
@@ -69,9 +71,11 @@ export default function SignInComponent() {
 
     toast.dismiss(loadId);
     if (!res?.error) {
+      toast.success('Signed In Successfully');
+      setCheckingPassword(false);
       router.push('/dashboard');
-      toast.success('Signed In');
     } else {
+      // router.push('/error');
       if (res.status === 401) {
         toast.error('Invalid Credentials, try again!');
       } else if (res.status === 400) {
@@ -117,7 +121,9 @@ export default function SignInComponent() {
               whileHover={{ rotate: [0, -10, 10, 0] }}
               transition={{ duration: 0.5 }}
             >
-              <Brain className="h-12 w-12 text-primary mb-4" />
+              <Link href="/" className="flex items-center hover:scale-105 ">
+                <Brain className="h-12 w-12 text-primary mb-4" />
+              </Link>
             </motion.div>
             <h1 className="text-2xl font-bold halloween-font">Welcome Back</h1>
             <p className="text-muted-foreground text-center mt-2">

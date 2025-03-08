@@ -84,6 +84,10 @@ export default function SignUp() {
     }
     setCheckingPassword(true);
 
+    email.current = email.current.trim();
+    firstNameRef.current = firstNameRef.current.trim();
+    lastNameRef.current = lastNameRef.current.trim();
+
     const result = validate(userObject, {
       email: email.current,
       firstName: firstNameRef.current,
@@ -121,9 +125,10 @@ export default function SignUp() {
         router.push('/signin');
         toast.success('Account Created');
       }
-    } catch (error: any) {
+    } catch (error) {
       toast.dismiss(loadId);
       console.error(error);
+      //@ts-ignore
       const res = error?.response;
       if (res?.status === 401) {
         toast.error('Invalid Credentials, try again!');
@@ -170,7 +175,9 @@ export default function SignUp() {
               whileHover={{ rotate: [0, -10, 10, 0] }}
               transition={{ duration: 0.5 }}
             >
-              <Brain className="h-12 w-12 text-primary mb-4" />
+              <Link href="/" className="flex items-center hover:scale-105 ">
+                <Brain className="h-12 w-12 text-primary mb-4" />
+              </Link>
             </motion.div>
             <h1 className="text-2xl font-bold halloween-font">
               Create Your Second Brain
@@ -314,22 +321,31 @@ export default function SignUp() {
             </div>
 
             <div className="flex items-center gap-2">
-              <Input
-                id="terms"
-                type="checkbox"
-                onChange={handleTermChange}
-                className="h-4 w-4 rounded border-input bg-background text-primary focus:outline-hidden focus:ring-2 focus:ring-primary/50"
-              />
-              <Label htmlFor="terms" className="text-xs text-muted-foreground">
-                I agree to the{' '}
-                <Link href="#terms" className="text-primary hover:underline">
-                  Terms of Service
-                </Link>{' '}
-                and{' '}
-                <Link href="#privacy" className="text-primary hover:underline">
-                  Privacy Policy
-                </Link>
-              </Label>
+              <div className="flex items-center gap-2">
+                <Input
+                  id="terms"
+                  type="checkbox"
+                  onChange={handleTermChange}
+                  className="h-4 w-4 rounded border-input bg-background text-primary focus:outline-hidden focus:ring-2 focus:ring-primary/50"
+                />
+                <Label
+                  htmlFor="terms"
+                  className="text-xs text-muted-foreground"
+                >
+                  I agree to the{' '}
+                  <Link href="#terms" className="text-primary hover:underline">
+                    Terms of Service
+                  </Link>{' '}
+                  and{' '}
+                  <Link
+                    href="#privacy"
+                    className="text-primary hover:underline"
+                  >
+                    Privacy Policy
+                  </Link>
+                  .
+                </Label>
+              </div>
               {requiredError.checkboxReq && (
                 <span className="text-red-500">Agree to terms is required</span>
               )}

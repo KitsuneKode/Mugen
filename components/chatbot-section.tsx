@@ -18,12 +18,11 @@ export default function ChatbotSection() {
         if (entry.isIntersecting) {
           // Calculate position to show chat section 1/3 from top
           const targetPosition =
-            scrollRef.current!.offsetTop - window.innerHeight / 3;
+            scrollRef.current!.offsetTop - window.innerHeight / 5;
           window.scrollTo({
             top: targetPosition,
             behavior: 'smooth',
           });
-          observer.disconnect();
         }
       },
       {

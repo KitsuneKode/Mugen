@@ -1,7 +1,8 @@
-import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '@/lib/auth';
+import { NextRequest } from 'next/server';
 
-export const GET = async (req: NextRequest, res: NextResponse) => {
-  const session = await getServerSession(authOptions);
+export const POST = async (req: NextRequest) => {
+  const { share } = await req.json();
+
+  if (share) {
+  }
 };
