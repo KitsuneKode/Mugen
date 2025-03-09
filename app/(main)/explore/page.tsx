@@ -1,4 +1,4 @@
-import ExploreGrid from '@/components/explore-grid';
+import ExploreGrid from '@/components/public-brains';
 import { Button } from '@/components/ui/button';
 
 export default function ExplorePage() {

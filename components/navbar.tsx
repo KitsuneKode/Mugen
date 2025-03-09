@@ -10,8 +10,10 @@ import { ThemeToggle } from './theme-toggle';
 import { user } from '@/lib/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { signOut, useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from './ui/button';
+import Logo from './logo';
 
 export default function Navbar() {
   const { data, status } = useSession();
@@ -29,7 +31,7 @@ export default function Navbar() {
     : 'MB';
 
   const handleRandomImage = () => {
-    const randomNumber = Math.floor(Math.random() * 15) + 1;
+    const randomNumber = Math.floor(Math.random() * 15);
     setImage(randomNumber.toString());
   };
 
@@ -37,7 +39,13 @@ export default function Navbar() {
     <>
       <header className="fixed top-0 left-0 w-full border-b border-border/70 bg-card backdrop-blur-sm supports-backdrop-filter:bg-card/60 z-50">
         <div className="container flex h-16 items-center justify-between">
-          <div className="p-8"></div>
+          <div className="p-8 ">
+            <Logo
+              height={32}
+              width={32}
+              className={`w-12 h-12 absolute top-1 left-2`}
+            />
+          </div>
           <nav className="hidden md:flex items-center gap-6">
             <NavLink href="/dashboard">Dashboard</NavLink>
             <NavLink href="/brains">Brains</NavLink>
@@ -50,13 +58,20 @@ export default function Navbar() {
             <Button
               className="mx-0"
               onClick={async () => {
+                if (status === 'unauthenticated') {
+                  return redirect('/signin');
+                }
                 setLoading(true);
                 await signOut();
                 toast.success('Logged out successfully');
                 setLoading(false);
               }}
             >
-              {loading ? 'Logging out...' : 'Logout'}
+              {status === 'unauthenticated'
+                ? 'Signin'
+                : loading
+                ? 'Logging out...'
+                : 'Logout'}
             </Button>
             <Button
               onClick={handleRandomImage}

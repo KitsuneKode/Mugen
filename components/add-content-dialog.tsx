@@ -2,9 +2,6 @@
 
 import type React from 'react';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, LinkIcon, Twitter, Video, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -16,9 +13,26 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  FileText,
+  InstagramIcon,
+  LinkIcon,
+  Twitter,
+  X,
+  YoutubeIcon,
+} from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import Reddit from './reddit';
 
-type ContentType = 'link' | 'note' | 'tweet' | 'video';
+type ContentType =
+  | 'link'
+  | 'note'
+  | 'tweet'
+  | 'reddit'
+  | 'youtube'
+  | 'instagram';
 
 interface AddContentDialogProps {
   open: boolean;
@@ -33,7 +47,7 @@ export function AddContentDialog({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
+
     toast.success('Content added successfully');
     onOpenChange(false);
     setContentType(null);
@@ -59,10 +73,22 @@ export function AddContentDialog({
       description: 'Save a tweet or thread',
     },
     {
-      type: 'video' as const,
-      icon: Video,
-      label: 'Video',
+      type: 'youtube' as const,
+      icon: YoutubeIcon,
+      label: 'Youtube',
       description: 'Save a video from YouTube or other platforms',
+    },
+    {
+      type: 'instagram' as const,
+      icon: InstagramIcon,
+      label: 'Instagram',
+      description: 'Save reel/post/ from Instagram',
+    },
+    {
+      type: 'reddit' as const,
+      icon: Reddit,
+      label: 'Reddit',
+      description: 'Save reddit posts or comments',
     },
   ];
 
@@ -89,7 +115,7 @@ export function AddContentDialog({
                 <button
                   key={type.type}
                   onClick={() => setContentType(type.type)}
-                  className="group relative flex flex-col items-center gap-2 rounded-lg border border-border p-4 hover:border-primary/50 hover:bg-accent"
+                  className="group relative flex flex-col items-center gap-2 rounded-lg border border-border p-4 hover:cursor-pointer hover:border-primary/50 hover:bg-accent"
                 >
                   <type.icon className="h-8 w-8 text-primary" />
                   <div className="text-center">
@@ -115,6 +141,7 @@ export function AddContentDialog({
                   type="button"
                   variant="ghost"
                   size="icon"
+                  className="hover:bg-accent hover:cursor-pointer"
                   onClick={() => setContentType(null)}
                 >
                   <X className="h-4 w-4" />
@@ -177,12 +204,36 @@ export function AddContentDialog({
                 </div>
               )}
 
-              {contentType === 'video' && (
+              {contentType === 'youtube' && (
                 <div className="space-y-2">
                   <Label htmlFor="video-url">Video URL</Label>
                   <Input
                     id="video-url"
                     placeholder="https://youtube.com/watch?v=..."
+                    type="url"
+                    required
+                  />
+                </div>
+              )}
+
+              {contentType === 'reddit' && (
+                <div className="space-y-2">
+                  <Label htmlFor="video-url">Video Embed URL</Label>
+                  <Input
+                    id="video-url"
+                    placeholder={`<blockquote class="reddit-embed-bq" style....`}
+                    type="url"
+                    required
+                  />
+                </div>
+              )}
+
+              {contentType === 'instagram' && (
+                <div className="space-y-2">
+                  <Label htmlFor="video-url">Video URL</Label>
+                  <Input
+                    id="video-url"
+                    placeholder="https://instagram.com/..."
                     type="url"
                     required
                   />

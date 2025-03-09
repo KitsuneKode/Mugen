@@ -36,6 +36,7 @@ export const POST = async (req: NextRequest) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     await db.user.create({
       data: {
+        avatarId: Math.floor(Math.random() * 11) + 1,
         email: email.toLowerCase(),
         password: hashedPassword,
         name,

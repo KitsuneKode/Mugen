@@ -44,8 +44,8 @@ export const POST = async (req: NextRequest) => {
           Tags: {
             connectOrCreate:
               tags?.map((tag: string) => ({
-                where: { tags: tag },
-                create: { tags: tag },
+                where: { tag },
+                create: { tag },
               })) || [],
           },
         },

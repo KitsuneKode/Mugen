@@ -21,6 +21,7 @@ model User {
   Contents  Content[]
   Tags      Tag[]
   Brains    Brain[]
+  avatarId  Int
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -40,7 +41,7 @@ model Content {
 
 model Tag {
   id        Int       @id @unique @default(autoincrement())
-  tags      String    @unique
+  tag       String    @unique
   Contents  Content[]
   Users     User[]
   Brains    Brain[]
@@ -49,22 +50,23 @@ model Tag {
 }
 
 model Brain {
-  id        Int       @id @unique @default(autoincrement())
-  userId    Int
-  name      String
-  share     Boolean   @default(false)
-  user      User      @relation(fields: [userId], references: [id])
-  Contents  Content[]
-  linkId    Int?      @unique
-  Link      Link?
-  Tags      Tag[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          Int       @id @unique @default(autoincrement())
+  userId      Int
+  name        String
+  share       Boolean   @default(false)
+  description String
+  user        User      @relation(fields: [userId], references: [id])
+  Contents    Content[]
+  stars       Int       @default(0)
+  Link        Link?
+  Tags        Tag[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Link {
   id        Int      @id @unique @default(autoincrement())
-  hash      String
+  hash      String   @unique
   brainId   Int      @unique
   Brain     Brain    @relation(fields: [brainId], references: [id])
   createdAt DateTime @default(now())
@@ -73,11 +75,12 @@ model Link {
 
 enum ContentType {
   image
-  video
   article
+  instagram
   audio
   twitter
   reddit
   youtube
+  embed_link
   other
 }

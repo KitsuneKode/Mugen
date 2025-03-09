@@ -1,5 +1,5 @@
 import { ContentButtons } from '@/components/content-buttons';
-import ExploreGrid from '@/components/explore-grid';
+import ExploreGrid from '@/components/public-brains';
 export default function Dashboard() {
   return (
     <div className="py-24 px-4">

@@ -1,11 +1,10 @@
-'use client';
-
 import type React from 'react';
 
 import Image from 'next/image';
-import EmbedCard from './embed-card';
+import EmbedCard from './content-card';
+import { ContentButtons } from './content-buttons';
 
-export default function EmbedsGrid() {
+export async function EmbedsGrid() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <EmbedCard
@@ -228,6 +227,25 @@ export default function EmbedsGrid() {
           </div>
         }
       />
+    </div>
+  );
+}
+
+export default async function Dashboard() {
+  return (
+    <div className="container mx-auto">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-3xl font-bold halloween-font mb-2">
+            Your Memories
+          </h1>
+          <p className="text-muted-foreground">
+            Save and organize content from across the web
+          </p>
+        </div>
+        <ContentButtons />
+      </div>
+      <EmbedsGrid />
     </div>
   );
 }
