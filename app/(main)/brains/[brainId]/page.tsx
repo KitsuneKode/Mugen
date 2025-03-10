@@ -3,7 +3,24 @@ import BrainContentButtons from '@/components/brain-content-button';
 import { ContentCard } from '@/components/content-card';
 import { Redirect } from '@/components/redirect';
 import { authOptions } from '@/lib/auth';
+import type { ContentType } from '@prisma/client';
 import { getServerSession } from 'next-auth';
+
+interface BrainContents {
+  id: number;
+  createdAt: Date;
+  user: {
+    id: number;
+    name: string;
+    avatarId: number;
+  };
+  Tags: {
+    tag: string;
+  }[];
+  type: ContentType;
+  title: string;
+  link: string;
+}
 
 export default async function ContentPage({
   params,
@@ -49,7 +66,7 @@ export default async function ContentPage({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {brainContents.Contents.map((content) => (
+          {brainContents.Contents.map((content: BrainContents) => (
             <ContentCard key={content.id} content={content} />
           ))}
         </div>
