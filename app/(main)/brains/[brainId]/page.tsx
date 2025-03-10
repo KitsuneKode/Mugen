@@ -1,15 +1,23 @@
-import { getPublicBrainContents } from '@/app/actions/lib';
+import { getMyBrainContents } from '@/app/actions/lib';
+import BrainContentButtons from '@/components/brain-content-button';
 import { ContentCard } from '@/components/content-card';
-import BrainContentButtons from '../../../../components/brain-content-button';
+import { Redirect } from '@/components/redirect';
+import { authOptions } from '@/lib/auth';
+import { getServerSession } from 'next-auth';
 
-export default async function PublicContentPage({
+export default async function ContentPage({
   params,
 }: {
-  params: { hash: string };
+  params: { brainId: string };
 }) {
-  const { hash } = await params;
+  const session = await getServerSession(authOptions);
 
-  const brainContents = await getPublicBrainContents(hash);
+  if (!session?.user) {
+    return <Redirect to="/signin" />;
+  }
+
+  const { brainId } = await params;
+  const brainContents = await getMyBrainContents(Number(brainId));
 
   if (!brainContents) {
     return (
@@ -18,7 +26,6 @@ export default async function PublicContentPage({
       </div>
     );
   }
-  const contents = brainContents.Brain.Contents;
 
   return (
     <div className="py-24 px-4">
@@ -26,20 +33,18 @@ export default async function PublicContentPage({
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <h1 className="text-3xl font-bold halloween-font mb-2">
-              {brainContents.Brain.name}
+              {brainContents.name}
             </h1>
-            <p className="text-muted-foreground">
-              {brainContents.Brain.description}
-            </p>
+            <p className="text-muted-foreground">{brainContents.description}</p>
           </div>
           <BrainContentButtons
-            name={brainContents.Brain.user.name}
-            stars={brainContents.Brain.stars.toString()}
+            name={brainContents.user.name}
+            stars={brainContents.stars.toString()}
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {contents.map((content) => (
+          {brainContents.Contents.map((content) => (
             <ContentCard key={content.id} content={content} />
           ))}
         </div>

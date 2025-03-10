@@ -14,7 +14,6 @@ interface RequestBody {
 export const POST = async (req: NextRequest) => {
   try {
     const session = await getServerSession(authOptions);
-    console.log(session);
 
     if (!session || !session?.user) {
       return NextResponse.json(
@@ -25,7 +24,6 @@ export const POST = async (req: NextRequest) => {
     const { type, link, title, tags }: RequestBody = await req.json();
 
     const { id: userId } = (session as session).user;
-
     // Validate required fields
     if (!type || !link || !title) {
       return NextResponse.json(
@@ -79,7 +77,6 @@ export const POST = async (req: NextRequest) => {
 export const DELETE = async (req: NextRequest) => {
   try {
     const session = await getServerSession(authOptions);
-    console.log(session);
 
     if (!session || !session?.user) {
       return NextResponse.json(

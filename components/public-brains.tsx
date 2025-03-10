@@ -1,7 +1,7 @@
 import { getPublicBrains } from '@/app/actions/lib';
-import PublicBrainCard from './public-brain-card';
+import BrainCard from './brain-card';
 
-export default async function ExploreGrid() {
+export default async function PublicBrains() {
   const publicBrains = await getPublicBrains();
 
   if (!publicBrains) {
@@ -15,7 +15,7 @@ export default async function ExploreGrid() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {publicBrains.map((brain) => (
-        <PublicBrainCard key={brain.id} brain={brain} />
+        <BrainCard key={brain.id} brain={brain} publicMode={false} />
       ))}
     </div>
   );

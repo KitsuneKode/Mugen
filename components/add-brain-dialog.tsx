@@ -1,5 +1,6 @@
 'use client';
 
+import { getMyContentsName } from '@/app/actions/lib';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,9 +12,14 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Check, Copy, Share2 } from 'lucide-react';
-import { useState } from 'react';
+import { Brain, Check } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { Textarea } from './ui/textarea';
+import { session } from '@/lib/auth';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 interface ShareBrainDialogProps {
   open: boolean;
@@ -22,14 +28,70 @@ interface ShareBrainDialogProps {
 
 export function AddBrainDialog({ open, onOpenChange }: ShareBrainDialogProps) {
   const [name, setName] = useState('');
-  const [sharedContent, setSharedContent] = useState<string[]>([]);
+  const [description, setDescription] = useState('');
+  const [sharedContent, setSharedContent] = useState<number[]>([]);
+  const router = useRouter();
 
-  const dummyContent = [
-    { id: '1', title: 'Project Roadmap' },
-    { id: '2', title: 'Meeting Notes' },
-    { id: '3', title: 'Research Paper' },
-    { id: '4', title: 'Book Summary' },
-  ];
+  const [content, setContent] = useState<{ id: number; title: string }[]>([
+    { title: '', id: 0 },
+  ]);
+  const session = useSession();
+
+  const userId = (session.data as session)?.user?.id;
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      const response = await getMyContentsName(Number(userId));
+
+      if (response) {
+        setContent(response);
+      } else {
+        toast.error('Failed to fetch content');
+      }
+    };
+    if (session.status === 'authenticated') {
+      fetchContent();
+    }
+  }, [session.status, userId]);
+
+  const handleAddBrain = async () => {
+    try {
+      const response = await axios.post(
+        '/api/brain',
+        {
+          contentIds: sharedContent,
+          name,
+          description,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success('Brain added successfully');
+      }
+    } catch (err) {
+      console.error('Error adding brain:', err);
+      toast.error('Failed to add brain');
+      setName('');
+      setDescription('');
+      setSharedContent([]);
+      setContent([{ title: '', id: 0 }]);
+      onOpenChange(false);
+      return;
+    }
+
+    setName('');
+    setDescription('');
+    setSharedContent([]);
+    setContent([{ title: '', id: 0 }]);
+    onOpenChange(false);
+
+    router.refresh();
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -52,15 +114,27 @@ export function AddBrainDialog({ open, onOpenChange }: ShareBrainDialogProps) {
               <Input
                 id="public-name"
                 value={name}
+                required
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter a name for your brain"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="description">Brain Description</Label>
+              <Textarea
+                id="description"
+                value={description}
+                rows={3}
+                required
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Enter a description for your brain"
               />
             </div>
 
             <div className="space-y-2">
               <Label>Select Content to Share</Label>
-              <div className="grid grid-cols-2 gap-2">
-                {dummyContent.map((item) => (
+              <div className="max-h-60 overflow-y-auto grid grid-cols-2 gap-2">
+                {content.map((item) => (
                   <Button
                     key={item.id}
                     variant={
@@ -86,6 +160,14 @@ export function AddBrainDialog({ open, onOpenChange }: ShareBrainDialogProps) {
                   </Button>
                 ))}
               </div>
+              <div className="text-sm text-muted-foreground p-2"></div>
+
+              {sharedContent.length > 0 && name && description && (
+                <Button onClick={handleAddBrain} className="w-full ">
+                  <Brain className="mr-2 h-4 w-4" />
+                  Add Brain
+                </Button>
+              )}
             </div>
           </motion.div>
         </AnimatePresence>

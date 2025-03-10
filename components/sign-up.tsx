@@ -259,7 +259,6 @@ export default function SignUp() {
                   id="password"
                   ref={passwordRef}
                   onChange={(e) => {
-                    console.log('ficlll');
                     handlePasswordChange(e);
                   }}
                   type={isPasswordVisible ? 'text' : 'password'}

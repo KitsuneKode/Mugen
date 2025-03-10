@@ -1,8 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, Check, Copy, Globe, Share2 } from 'lucide-react';
+import { getMyPrivateBrainsNames } from '@/app/actions/lib';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -14,6 +12,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { session } from '@/lib/auth';
+import axios from 'axios';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Brain, Copy, Globe, RefreshCw, Share2 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 interface ShareBrainDialogProps {
@@ -25,37 +30,63 @@ export function ShareBrainDialog({
   open,
   onOpenChange,
 }: ShareBrainDialogProps) {
-  const [selectedBrain, setSelectedBrain] = useState<string | null>(null);
-  const [publicName, setPublicName] = useState('');
-  const [sharedContent, setSharedContent] = useState<string[]>([]);
+  const [selectedBrain, setSelectedBrain] = useState<number | null>(null);
   const [isPublic, setIsPublic] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [publicLink, setPublicLink] = useState('');
+  const [brains, setBrains] = useState<{ id: number; name: string }[]>([]);
+  const router = useRouter();
+  const session = useSession();
+  const userId = (session.data as session)?.user?.id;
 
-  const dummyBrains = [
-    { id: '1', name: 'Work Projects' },
-    { id: '2', name: 'Personal Notes' },
-    { id: '3', name: 'Research Ideas' },
-  ];
+  useEffect(() => {
+    const fetchBrains = async () => {
+      const response = await getMyPrivateBrainsNames(Number(userId));
 
-  const dummyContent = [
-    { id: '1', title: 'Project Roadmap' },
-    { id: '2', title: 'Meeting Notes' },
-    { id: '3', title: 'Research Paper' },
-    { id: '4', title: 'Book Summary' },
-  ];
+      if (response) {
+        setBrains(response);
+      } else {
+        toast.error('Failed to fetch Brains');
+      }
+    };
+    if (session.status === 'authenticated') {
+      fetchBrains();
+    }
 
-  const handleShare = () => {
-    // In a real application, you would make an API call here to share the brain
-    const generatedLink = `https://secondbrain.app/public/${publicName
-      .toLowerCase()
-      .replace(/\s+/g, '-')}`;
-    setPublicLink(generatedLink);
-    toast.success('Brain shared to public successfully');
+    if (!open) {
+      setPublicLink('');
+      setSelectedBrain(null);
+      setIsPublic(false);
+    }
+
+    return () => {
+      setPublicLink('');
+      setSelectedBrain(null);
+      setIsPublic(false);
+    };
+  }, [session, userId, refresh, open]);
+
+  const handleShare = async () => {
+    try {
+      const response = await axios.post('/api/brain/share', {
+        share: isPublic,
+        brainId: selectedBrain,
+      });
+
+      if (response.status === 200) {
+        toast.success('Brain shared successfully');
+        setPublicLink(response.data.link);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to share brain');
+    }
   };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(publicLink);
     toast.message('Link copied');
+    router.refresh();
   };
 
   return (
@@ -70,9 +101,20 @@ export function ShareBrainDialog({
 
         <div className="space-y-4 py-4">
           <div className="space-y-2">
-            <Label>Select a Brain</Label>
+            <Label>
+              Select a Brain{' '}
+              <Button
+                className="ml-2 rounded-full"
+                variant="outline"
+                size="icon"
+                disabled={publicLink !== ''}
+                onClick={() => setRefresh(!refresh)}
+              >
+                <RefreshCw className="w-2 h-2" />
+              </Button>
+            </Label>
             <div className="grid grid-cols-2 gap-2">
-              {dummyBrains.map((brain) => (
+              {brains.map((brain) => (
                 <Button
                   disabled={publicLink !== ''}
                   key={brain.id}
@@ -95,52 +137,9 @@ export function ShareBrainDialog({
                 exit={{ opacity: 0, y: -20 }}
                 className="space-y-4"
               >
-                <div className="space-y-2">
-                  <Label htmlFor="public-name">Public Name</Label>
-                  <Input
-                    id="public-name"
-                    disabled={publicLink !== ''}
-                    value={publicName}
-                    onChange={(e) => setPublicName(e.target.value)}
-                    placeholder="Enter a public name for your brain"
-                  />
-                </div>
+                <div className=" h-1"></div>
 
-                <div className="space-y-2">
-                  <Label>Select Content to Share</Label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {dummyContent.map((item) => (
-                      <Button
-                        key={item.id}
-                        disabled={publicLink !== ''}
-                        variant={
-                          sharedContent.includes(item.id)
-                            ? 'default'
-                            : 'outline'
-                        }
-                        className="justify-start"
-                        onClick={() =>
-                          setSharedContent((prev) =>
-                            prev.includes(item.id)
-                              ? prev.filter((id) => id !== item.id)
-                              : [...prev, item.id]
-                          )
-                        }
-                      >
-                        <Check
-                          className={`mr-2 h-4 w-4 ${
-                            sharedContent.includes(item.id)
-                              ? 'opacity-100'
-                              : 'opacity-0'
-                          }`}
-                        />
-                        {item.title}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 border-2 rounded-2xl p-4">
                   <Switch
                     id="public-access"
                     checked={isPublic}
@@ -149,6 +148,7 @@ export function ShareBrainDialog({
                   />
                   <Label htmlFor="public-access">Make brain public</Label>
                 </div>
+                <div className=" h-1"></div>
 
                 {isPublic && (
                   <div className="rounded-md bg-muted p-4">

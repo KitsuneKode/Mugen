@@ -1,6 +1,7 @@
 import { ContentButtons } from '@/components/content-buttons';
-import ExploreGrid from '@/components/public-brains';
-export default function Dashboard() {
+import MyBrains from '@/components/my-brains';
+
+export default function BrainPage() {
   return (
     <div className="py-24 px-4">
       <div className="container mx-auto">
@@ -16,7 +17,7 @@ export default function Dashboard() {
           <ContentButtons />
         </div>
 
-        <ExploreGrid />
+        <MyBrains />
       </div>
     </div>
   );

@@ -25,7 +25,6 @@ export default function Navbar() {
     return <div className="h-screen w-screen">Loading...</div>; // Or a spinner/skeleton
   }
 
-  console.log(open);
   const avatarInitials = data
     ? (data?.user as user).name.split(' ').map((n) => n[0])
     : 'MB';

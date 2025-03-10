@@ -1,4 +1,4 @@
-import ExploreGrid from '@/components/public-brains';
+import PublicBrains from '@/components/public-brains';
 import { Button } from '@/components/ui/button';
 
 export default function ExplorePage() {
@@ -45,7 +45,7 @@ export default function ExplorePage() {
           </div>
         </div>
 
-        <ExploreGrid />
+        <PublicBrains />
       </div>
     </div>
   );

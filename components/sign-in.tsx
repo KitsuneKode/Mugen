@@ -30,7 +30,6 @@ export default function SignInComponent() {
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     email.current = e.target.value;
-    console.log(email.current);
     setRequiredError((prevState) => ({
       ...prevState,
       emailReq: false,
@@ -39,7 +38,6 @@ export default function SignInComponent() {
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     password.current = e.target.value;
-    console.log(password.current);
     setRequiredError((prevState) => ({
       ...prevState,
       passReq: false,
@@ -87,8 +85,8 @@ export default function SignInComponent() {
     } else {
       setCheckingPassword(false);
       router.push('/dashboard');
+      toast.success('Signed In Successfully');
     }
-    toast.success('Signed In Successfully');
   };
 
   return (
@@ -171,7 +169,6 @@ export default function SignInComponent() {
                     id="password"
                     ref={passwordRef}
                     onChange={(e) => {
-                      console.log('ficlll');
                       handlePasswordChange(e);
                     }}
                     type={isPasswordVisible ? 'text' : 'password'}
