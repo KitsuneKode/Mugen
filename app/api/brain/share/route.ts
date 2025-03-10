@@ -28,10 +28,6 @@ export const POST = async (req: NextRequest) => {
         { status: 400 }
       );
     }
-    console.log('brainId', brainId);
-    console.log('share', share);
-
-    console.log(1);
 
     const response = await db.$transaction(async (tx) => {
       if (!share) {
@@ -91,7 +87,6 @@ export const POST = async (req: NextRequest) => {
         link: `${process.env.NEXTAUTH_URL}/explore/${shareableLink.Link?.hash}`,
       };
     });
-    console.log(response);
     return NextResponse.json(response, { status: 200 });
   } catch (err) {
     console.error('Error during creating shareable link', err);

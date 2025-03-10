@@ -5,7 +5,7 @@ import BrainContentButtons from '../../../../components/brain-content-button';
 export default async function PublicContentPage({
   params,
 }: {
-  params: { hash: string };
+  params: Promise<{ hash: string }>;
 }) {
   const { hash } = await params;
 

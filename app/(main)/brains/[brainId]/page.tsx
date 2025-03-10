@@ -8,7 +8,7 @@ import { getServerSession } from 'next-auth';
 export default async function ContentPage({
   params,
 }: {
-  params: { brainId: string };
+  params: Promise<{ brainId: string }>;
 }) {
   const session = await getServerSession(authOptions);
 

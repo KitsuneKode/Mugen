@@ -24,12 +24,12 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   const navItems = [
-    { icon: Twitter, label: 'Tweets', href: '/dashboard/tweets' },
-    { icon: Video, label: 'Videos', href: '/dashboard/videos' },
-    { icon: FileText, label: 'Documents', href: '/dashboard/documents' },
-    { icon: LinkIcon, label: 'Links', href: '/dashboard/links' },
-    { icon: Reddit, label: 'Reddit', href: '/dashboard/reddit' },
-    { icon: Hash, label: 'Tags', href: '/dashboard/tags' },
+    { icon: Twitter, label: 'Tweets', href: '#tweets' },
+    { icon: Video, label: 'Videos', href: '#videos' },
+    { icon: FileText, label: 'Documents', href: '#documents' },
+    { icon: LinkIcon, label: 'Links', href: '#links' },
+    { icon: Reddit, label: 'Reddit', href: '#reddit' },
+    { icon: Hash, label: 'Tags', href: '#tags' },
   ];
 
   const handleChatClick = () => {

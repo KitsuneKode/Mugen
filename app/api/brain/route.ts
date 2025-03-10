@@ -69,12 +69,9 @@ export const POST = async (req: NextRequest) => {
 
     console.log('Brain created successfully');
 
-    return NextResponse.json(
-      {
-        message: 'Brain created successfully',
-      },
-      { status: 201 }
-    );
+    return NextResponse.json({
+      message: 'Brain created successfully',
+    });
   } catch (err) {
     console.error('Error during creating brain:', err);
     return NextResponse.json(
@@ -97,6 +94,7 @@ export const DELETE = async (req: NextRequest) => {
     const { brainId } = await req.json();
 
     const { id: userId } = (session as session).user;
+
     if (!brainId) {
       return NextResponse.json(
         { error: 'Missing required fields: brainId' },
@@ -122,12 +120,9 @@ export const DELETE = async (req: NextRequest) => {
 
     console.log('Brain deleted successfully');
 
-    return NextResponse.json(
-      {
-        message: 'Brain deleted successfully',
-      },
-      { status: 201 }
-    );
+    return NextResponse.json({
+      message: 'Brain deleted successfully',
+    });
   } catch (err) {
     console.error('Error during creating brain:', err);
     return NextResponse.json(

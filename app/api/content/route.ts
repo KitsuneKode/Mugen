@@ -59,12 +59,9 @@ export const POST = async (req: NextRequest) => {
 
     console.log('Content added successfully');
 
-    return NextResponse.json(
-      {
-        message: 'Content added successfully',
-      },
-      { status: 201 }
-    );
+    return NextResponse.json({
+      message: 'Content added successfully',
+    });
   } catch (err) {
     console.error('Error during adding content:', err);
     return NextResponse.json(

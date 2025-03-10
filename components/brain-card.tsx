@@ -113,7 +113,7 @@ export default function BrainCard({
                       '/api/brain',
                       {
                         data: {
-                          id: brain.id,
+                          brainId: brain.id,
                         },
                       }
                     );

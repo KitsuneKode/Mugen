@@ -1,40 +1,37 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import ChatBot from './chatbot';
 
 export default function ChatbotSection() {
-  // Add a ref for the chat container
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Only load messages when the component is in view
-  useEffect(() => {
-    if (!scrollRef.current) return;
+  // useEffect(() => {
+  //   if (!scrollRef.current) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting) {
-          // Calculate position to show chat section 1/3 from top
-          const targetPosition =
-            scrollRef.current!.offsetTop - window.innerHeight / 5;
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth',
-          });
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '100px',
-      }
-    );
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       const [entry] = entries;
+  //       if (entry.isIntersecting) {
+  //         const targetPosition =
+  //           scrollRef.current!.offsetTop - window.innerHeight / 5;
+  //         window.scrollTo({
+  //           top: targetPosition,
+  //           behavior: 'smooth',
+  //         });
+  //       }
+  //     },
+  //     {
+  //       threshold: 0.1,
+  //       rootMargin: '100px',
+  //     }
+  //   );
 
-    observer.observe(scrollRef.current);
+  //   observer.observe(scrollRef.current);
 
-    return () => observer.disconnect();
-  }, []);
+  //   return () => observer.disconnect();
+  // }, []);
 
   return (
     <section ref={scrollRef} className="relative py-16 px-4">
