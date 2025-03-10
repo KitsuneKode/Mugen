@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ContentType } from '@prisma/client';
+import axios from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   FileText,
@@ -23,11 +24,10 @@ import {
   X,
   YoutubeIcon,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 import Reddit from './reddit';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
 interface AddContentDialogProps {
   open: boolean;
@@ -40,6 +40,7 @@ export function AddContentDialog({
 }: AddContentDialogProps) {
   const [contentType, setContentType] = useState<ContentType | null>(null);
   const [contentTags, setContentTags] = useState<string[]>([]);
+  const tagsRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,13 +48,34 @@ export function AddContentDialog({
       toast.error('Please select a content type');
       return;
     }
+
     e.preventDefault();
     const formElement = e.target as HTMLFormElement;
     const formData = new FormData(formElement);
 
+    const getTags = () => {
+      if (!tagsRef.current) return contentTags;
+      if (tagsRef.current.value === '') return contentTags;
+      const tags = tagsRef.current.value
+        .split(',')
+        .map((tag) => tag.trim())
+        .filter((tag) => tag !== '');
+      if (tags.length > 5) {
+        toast.error('You can only add up to 5 tags');
+        return contentTags; // Return contentTags if the limit is exceeded
+      }
+
+      const newTags = tags
+        .slice(0, 5)
+        .filter((tag) => !contentTags.includes(tag));
+      tagsRef.current.value = '';
+
+      return [...contentTags, ...newTags];
+    };
+
     const data: Record<string, ContentType | string[] | string> = {
       type: contentType,
-      tags: contentTags,
+      tags: getTags(),
       title: formData.get('title') as string,
     };
 
@@ -344,6 +366,7 @@ export function AddContentDialog({
                 <Input
                   id="tags"
                   placeholder="Add tags separated by commas and press enter"
+                  ref={tagsRef}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       e.preventDefault();
