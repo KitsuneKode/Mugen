@@ -3,7 +3,7 @@ import BrainContentButtons from '@/components/brain-content-button';
 import { ContentCard } from '@/components/content-card';
 import { Redirect } from '@/components/redirect';
 import { authOptions } from '@/lib/auth';
-import { type ContentType } from '@prisma/client';
+import type { ContentType } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 
 interface BrainContents {
