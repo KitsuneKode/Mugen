@@ -74,7 +74,6 @@ export function AddContentDialog({
         break;
     }
 
-    console.log('Form data collected:', data);
     const { title, link, tags, type } = data;
 
     try {

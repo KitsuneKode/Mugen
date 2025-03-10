@@ -17,6 +17,11 @@ export default async function ContentPage({
   }
 
   const { brainId } = await params;
+
+  if (!brainId || isNaN(Number(brainId))) {
+    return <Redirect to="/not-found" />;
+  }
+
   const brainContents = await getMyBrainContents(Number(brainId));
 
   if (!brainContents) {
