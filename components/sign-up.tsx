@@ -127,7 +127,6 @@ export default function SignUp() {
       }
     } catch (error) {
       toast.dismiss(loadId);
-      console.error(error);
       //@ts-ignore
       const res = error?.response;
       if (res?.status === 401) {

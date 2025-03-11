@@ -96,9 +96,8 @@ export default function BrainCard({
 
                         router.refresh();
                       }
-                    } catch (error) {
+                    } catch {
                       toast.error('Failed to private brain');
-                      console.error('Error deleting brain:', error);
                     }
                   }}
                 >
@@ -124,8 +123,13 @@ export default function BrainCard({
                       router.refresh();
                     }
                   } catch (error) {
-                    toast.error('Failed to delete brain');
-                    console.error('Error deleting brain:', error);
+                    if (axios.isAxiosError(error)) {
+                      toast.error(
+                        `Cannot delete a public brain, please unshare it first`
+                      );
+                    } else {
+                      toast.error('Failed to delete brain');
+                    }
                   }
                 }}
               >

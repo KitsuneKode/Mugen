@@ -108,9 +108,8 @@ export function AddContentDialog({
 
       toast.success('Content added successfully');
       router.refresh();
-    } catch (err) {
+    } catch {
       toast.error('Failed to add Content');
-      console.error(err);
     }
 
     onOpenChange(false);

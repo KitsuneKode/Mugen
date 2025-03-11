@@ -73,8 +73,7 @@ export function AddBrainDialog({ open, onOpenChange }: ShareBrainDialogProps) {
       if (response.status === 200) {
         toast.success('Brain added successfully');
       }
-    } catch (err) {
-      console.error('Error adding brain:', err);
+    } catch {
       toast.error('Failed to add brain');
       setName('');
       setDescription('');

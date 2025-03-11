@@ -63,8 +63,7 @@ export function ContentCard({ content }: { content: ContentCard }) {
       try {
         const { data } = await axios.post(`/api/reddit`, { link: link });
         setRedditEmbed(data.html);
-      } catch (err) {
-        console.error(err);
+      } catch {
         setRedditEmbed('');
       }
     };
