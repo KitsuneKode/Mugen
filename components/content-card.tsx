@@ -190,7 +190,10 @@ export function ContentCard({ content }: { content: ContentCard }) {
             </Link>
             {isOwner && (
               <>
-                <Button className="p-1.5 hover:bg-accent rounded-md bg-transparent transition-colors">
+                <Button
+                  className="p-1.5 hover:bg-accent rounded-md bg-transparent transition-colors"
+                  onClick={() => toast('Share to Brain Feature coming soon!')}
+                >
                   <Share2 className="h-4 w-4 text-muted-foreground" />
                 </Button>
 

@@ -1,16 +1,17 @@
 'use client';
 
-import { Star, User, Plus } from 'lucide-react';
-import React from 'react';
-import { Button } from './ui/button';
+import { Star, User } from 'lucide-react';
 import { toast } from 'sonner';
+import { Button } from './ui/button';
 
 const BrainContentButtons = ({
   stars,
   name,
+  publicMode = true,
 }: {
   name: string;
   stars: string;
+  publicMode?: boolean;
 }) => {
   return (
     <div className="flex gap-4">
@@ -25,21 +26,23 @@ const BrainContentButtons = ({
             //TODO
             // Handle star click
             console.log('Star clicked');
+            toast.info('Coming soon');
           }}
         >
           <Star className="h-5 w-5 text-amber-500 hover:scale-120" />
         </Button>
         <span>{stars}</span>
       </div>
-      <Button
-        className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors glow"
-        onClick={() => {
-          toast.info('Coming soon');
-        }}
-      >
-        <Plus className="" />
-        Add to Brain
-      </Button>
+      {!publicMode && (
+        <Button
+          className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors glow"
+          onClick={() => {
+            toast.info('Coming soon');
+          }}
+        >
+          Add to Brain
+        </Button>
+      )}
     </div>
   );
 };

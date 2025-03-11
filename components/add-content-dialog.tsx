@@ -175,21 +175,24 @@ export function AddContentDialog({
               exit={{ opacity: 0, y: -20 }}
               className="grid grid-cols-2 gap-4 py-4"
             >
-              {contentTypes.map((type) => (
-                <button
-                  key={type.type}
-                  onClick={() => setContentType(type.type as ContentType)}
-                  className="group relative flex flex-col items-center gap-2 rounded-lg border border-border p-4 hover:cursor-pointer hover:border-primary/50 hover:bg-accent"
-                >
-                  <type.icon className="h-8 w-8 text-primary" />
-                  <div className="text-center">
-                    <h3 className="font-medium">{type.label}</h3>
-                    <p className="text-xs text-muted-foreground">
-                      {type.description}
-                    </p>
-                  </div>
-                </button>
-              ))}
+              {contentTypes
+                .slice()
+                .reverse()
+                .map((type) => (
+                  <button
+                    key={type.type}
+                    onClick={() => setContentType(type.type as ContentType)}
+                    className="group relative flex flex-col items-center gap-2 rounded-lg border border-border p-4 hover:cursor-pointer hover:border-primary/50 hover:bg-accent"
+                  >
+                    <type.icon className="h-8 w-8 text-primary" />
+                    <div className="text-center">
+                      <h3 className="font-medium">{type.label}</h3>
+                      <p className="text-xs text-muted-foreground">
+                        {type.description}
+                      </p>
+                    </div>
+                  </button>
+                ))}
             </motion.div>
           ) : (
             <motion.form

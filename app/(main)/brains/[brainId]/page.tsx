@@ -1,11 +1,11 @@
 import { getMyBrainContents } from '@/app/actions/lib';
+import AnimatedBrain from '@/components/animated-brain';
 import BrainContentButtons from '@/components/brain-content-button';
 import { ContentCard } from '@/components/content-card';
 import PublicBrainEmpty from '@/components/empty-states/empty-brain-contents';
 import { Redirect } from '@/components/redirect';
 import { authOptions } from '@/lib/auth';
 import type { ContentType } from '@prisma/client';
-import { Brain } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 
 interface BrainContents {
@@ -57,19 +57,22 @@ export default async function ContentPage({
 
   return (
     <div className="py-24 px-4">
-      <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-          <div></div>
-          <div className="mb-8 text-center">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Brain className="h-12 w-12 text-primary" />
-              <h1 className="text-4xl font-bold">{brainContents.name}</h1>
-            </div>
-            <p className="text-muted-foreground">{brainContents.description}</p>
+      <div className="container mx-auto py-8">
+        <div className="mb-8 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4 halloween-font">
+            <AnimatedBrain />
+            <h1 className="text-4xl font-bold">{brainContents.name}</h1>
           </div>
+          <p className="text-muted-foreground max-w-md mx-auto">
+            {brainContents.description}
+          </p>
+        </div>
+
+        <div className="flex justify-end mb-8">
           <BrainContentButtons
             name={brainContents.user.name}
             stars={brainContents.stars.toString()}
+            publicMode={false}
           />
         </div>
 

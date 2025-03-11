@@ -133,31 +133,34 @@ export function AddBrainDialog({ open, onOpenChange }: ShareBrainDialogProps) {
             <div className="space-y-2">
               <Label>Select Content to Share</Label>
               <div className="max-h-60 overflow-y-auto grid grid-cols-2 gap-2">
-                {content.map((item) => (
-                  <Button
-                    key={item.id}
-                    variant={
-                      sharedContent.includes(item.id) ? 'default' : 'outline'
-                    }
-                    className="justify-start"
-                    onClick={() =>
-                      setSharedContent((prev) =>
-                        prev.includes(item.id)
-                          ? prev.filter((id) => id !== item.id)
-                          : [...prev, item.id]
-                      )
-                    }
-                  >
-                    <Check
-                      className={`mr-2 h-4 w-4 ${
-                        sharedContent.includes(item.id)
-                          ? 'opacity-100'
-                          : 'opacity-0'
-                      }`}
-                    />
-                    {item.title}
-                  </Button>
-                ))}
+                {content
+                  .slice()
+                  .reverse()
+                  .map((item) => (
+                    <Button
+                      key={item.id}
+                      variant={
+                        sharedContent.includes(item.id) ? 'default' : 'outline'
+                      }
+                      className="justify-start"
+                      onClick={() =>
+                        setSharedContent((prev) =>
+                          prev.includes(item.id)
+                            ? prev.filter((id) => id !== item.id)
+                            : [...prev, item.id]
+                        )
+                      }
+                    >
+                      <Check
+                        className={`mr-2 h-4 w-4 ${
+                          sharedContent.includes(item.id)
+                            ? 'opacity-100'
+                            : 'opacity-0'
+                        }`}
+                      />
+                      {item.title}
+                    </Button>
+                  ))}
               </div>
               {content.length === 0 && (
                 <p className="text-sm text-muted-foreground">

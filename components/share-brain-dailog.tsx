@@ -81,7 +81,7 @@ export function ShareBrainDialog({
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(publicLink);
-    toast.message('Link copied');
+    toast.success('Link copied');
     router.refresh();
   };
 
@@ -110,18 +110,21 @@ export function ShareBrainDialog({
               </Button>
             </Label>
             <div className="grid grid-cols-2 gap-2">
-              {brains.map((brain) => (
-                <Button
-                  disabled={publicLink !== ''}
-                  key={brain.id}
-                  variant={selectedBrain === brain.id ? 'default' : 'outline'}
-                  className="justify-start"
-                  onClick={() => setSelectedBrain(brain.id)}
-                >
-                  <Brain className="mr-2 h-4 w-4" />
-                  {brain.name}
-                </Button>
-              ))}
+              {brains
+                .slice()
+                .reverse()
+                .map((brain) => (
+                  <Button
+                    disabled={publicLink !== ''}
+                    key={brain.id}
+                    variant={selectedBrain === brain.id ? 'default' : 'outline'}
+                    className="justify-start"
+                    onClick={() => setSelectedBrain(brain.id)}
+                  >
+                    <Brain className="mr-2 h-4 w-4" />
+                    {brain.name}
+                  </Button>
+                ))}
             </div>
           </div>
 
@@ -158,7 +161,11 @@ export function ShareBrainDialog({
                 )}
 
                 {!publicLink && (
-                  <Button onClick={handleShare} className="w-full">
+                  <Button
+                    onClick={handleShare}
+                    className="w-full"
+                    disabled={!isPublic}
+                  >
                     <Share2 className="mr-2 h-4 w-4" />
                     Share Brain
                   </Button>
