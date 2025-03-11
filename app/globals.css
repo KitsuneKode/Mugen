@@ -242,7 +242,7 @@
 }
 
 .halloween-font {
-  font-family: var(--font-creepster);
+  font-family: var(--font-space-grotesk);
 }
 
 .star-bg {
@@ -318,12 +318,12 @@
 
 @keyframes glow-text {
   from {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff8c00, 0 0 20px #ff8c00,
-      0 0 25px #ff8c00, 0 0 30px #ff8c00, 0 0 35px #ff8c00;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #7b61ff, 0 0 20px #7b61ff,
+      0 0 25px #7b61ff, 0 0 30px #7b61ff, 0 0 35px #7b61ff;
   }
   to {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff8c00,
-      0 0 40px #ff8c00, 0 0 50px #ff8c00, 0 0 60px #ff8c00, 0 0 70px #ff8c00;
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #9d8cff,
+      0 0 40px #9d8cff, 0 0 50px #9d8cff, 0 0 60px #9d8cff, 0 0 70px #9d8cff;
   }
 }
 

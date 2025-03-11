@@ -160,6 +160,11 @@ export function AddBrainDialog({ open, onOpenChange }: ShareBrainDialogProps) {
                   </Button>
                 ))}
               </div>
+              {content.length === 0 && (
+                <p className="text-sm text-muted-foreground">
+                  No content available. Please add some content first.
+                </p>
+              )}
               <div className="text-sm text-muted-foreground p-2"></div>
 
               {sharedContent.length > 0 && name && description && (

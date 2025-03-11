@@ -1,8 +1,9 @@
 'use client';
 
-import { Star, User } from 'lucide-react';
+import { Star, User, Plus } from 'lucide-react';
 import React from 'react';
 import { Button } from './ui/button';
+import { toast } from 'sonner';
 
 const BrainContentButtons = ({
   stars,
@@ -30,6 +31,15 @@ const BrainContentButtons = ({
         </Button>
         <span>{stars}</span>
       </div>
+      <Button
+        className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors glow"
+        onClick={() => {
+          toast.info('Coming soon');
+        }}
+      >
+        <Plus className="" />
+        Add to Brain
+      </Button>
     </div>
   );
 };

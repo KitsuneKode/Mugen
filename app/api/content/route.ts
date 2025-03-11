@@ -99,7 +99,7 @@ export const DELETE = async (req: NextRequest) => {
       );
     }
 
-    await db.$transaction(async (tx) => {
+    const result = await db.$transaction(async (tx) => {
       const existingContent = await tx.content.findFirst({
         where: {
           id: Number(id),
@@ -108,30 +108,36 @@ export const DELETE = async (req: NextRequest) => {
       });
 
       if (!existingContent) {
-        return NextResponse.json(
-          {
-            error:
-              'Content not found or you do not have permission to delete it',
-          },
-          { status: 500 }
-        );
+        return {
+          message:
+            'Content not found or you do not have permission to delete it',
+          status: 500,
+        };
       }
 
-      await tx.content.delete({
+      const deleted = await tx.content.delete({
         where: {
           id: Number(id),
           userId: Number(userId),
         },
       });
-
-      return NextResponse.json(
-        {
-          message: 'Content successfully deleted',
-          deletedContentId: id,
-        },
-        { status: 200 }
-      );
+      if (!deleted) {
+        return {
+          message: 'Failed to delete content',
+          status: 500,
+        };
+      }
+      return {
+        message: 'Content deleted successfully',
+        status: 200,
+      };
     });
+    return NextResponse.json(
+      {
+        message: result.message,
+      },
+      { status: result.status }
+    );
   } catch (err) {
     console.error('Error during deleting content:', err);
     return NextResponse.json(

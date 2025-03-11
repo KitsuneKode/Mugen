@@ -33,12 +33,8 @@ export default function Sidebar() {
   ];
 
   const handleChatClick = () => {
-    toast.message('Opening Chat with Brain', {
-      icon: <Brain className="h-4 w-4 text-secondary" />,
-      style: {
-        backgroundColor: 'hsl(252, 56%, 57%)',
-        color: 'white',
-      },
+    toast.info('Coming soon', {
+      icon: <Brain className="h-4 w-4 " />,
     });
   };
 

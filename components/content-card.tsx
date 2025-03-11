@@ -34,6 +34,7 @@ import { toast } from 'sonner';
 import Reddit from './reddit';
 import RedditEmbed from './reddit-embed';
 import { user } from '@/lib/auth';
+import { useRouter } from 'next/navigation';
 
 interface ContentCard {
   link: string;
@@ -56,6 +57,7 @@ export function ContentCard({ content }: { content: ContentCard }) {
   const { status, data } = useSession();
   const [redditEmbed, setRedditEmbed] = useState('');
   const [isOwner, setIsOwner] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     const fetchEmbed = async () => {
       try {
@@ -211,11 +213,14 @@ export function ContentCard({ content }: { content: ContentCard }) {
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction
                         onClick={async () => {
-                          const res = await axios.delete(`/api/content/${id}`);
+                          const res = await axios.delete(
+                            `/api/content?contentId=${id}`
+                          );
                           if (res.status === 200) {
                             toast.success('Content deleted successfully');
+                            router.refresh();
                           } else {
-                            toast.dismiss('Unable to delete content');
+                            toast.error('Unable to delete content');
                           }
                         }}
                       >
