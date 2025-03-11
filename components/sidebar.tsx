@@ -113,7 +113,7 @@ export default function Sidebar() {
           onClick={handleChatClick}
         >
           <Brain className="h-10 w-10" />
-          {!isCollapsed && <span>Ask Brain</span>}
+          {!isCollapsed && <span className="hidden md:flex">Ask Brain</span>}
         </Button>
       </div>
     </div>

@@ -96,10 +96,7 @@ export default function Navbar() {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden border-b border-border/40 bg-card flex justify-center h-screen">
-            <nav
-              className="flex flex-col p-4 gap-2 items-center"
-              style={{ marginTop: '25%' }}
-            >
+            <nav className="flex flex-col p-4 gap-2 items-center">
               <MobileNavLink href="/" onClick={() => setIsMenuOpen(false)}>
                 Home
               </MobileNavLink>
@@ -108,6 +105,12 @@ export default function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Dashboard
+              </MobileNavLink>
+              <MobileNavLink
+                href="/brains"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Brain
               </MobileNavLink>
               <MobileNavLink
                 href="/explore"
@@ -141,12 +144,7 @@ export default function Navbar() {
               <MobileNavLink href="/chat" onClick={() => setIsMenuOpen(false)}>
                 Chat
               </MobileNavLink>
-              <MobileNavLink
-                href="/explore"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Explore
-              </MobileNavLink>
+
               {/* <div className="flex flex-col gap-2 mt-4 border-t border-border/40 hover:cursor-pointer"> */}
               <Button
                 className="m-2 hover:cursor-pointer"
