@@ -6,6 +6,7 @@ import type React from 'react';
 import './globals.css';
 import { Providers } from './providers';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const spaceGrotesk = Space_Grotesk({
@@ -35,6 +36,7 @@ export default function RootLayout({
             <main className="flex-1 overflow-auto">{children}</main>
             <Toaster richColors />
             <Analytics />
+            <SpeedInsights />
           </div>
           <Footer />
         </Providers>
