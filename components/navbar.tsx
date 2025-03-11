@@ -21,10 +21,6 @@ export default function Navbar() {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<string>('1');
 
-  if (status === 'loading') {
-    return <div className="h-screen w-screen">Loading...</div>; // Or a spinner/skeleton
-  }
-
   const avatarInitials = data
     ? (data?.user as user).name.split(' ').map((n) => n[0])
     : 'MB';
