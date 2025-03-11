@@ -1,7 +1,7 @@
 import PublicBrains from '@/components/public-brains';
 import { Button } from '@/components/ui/button';
 
-export default function ExplorePage() {
+export default async function ExplorePage() {
   return (
     <div className="py-24 px-4">
       <div className="container mx-auto">

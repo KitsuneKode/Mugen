@@ -1,5 +1,7 @@
 'use server';
 import db from '@/db';
+import { randomUUID as uuidv4 } from 'crypto';
+import { revalidatePath } from 'next/cache';
 
 export const getPublicBrains = async () => {
   const publicBrains = await db.brain.findMany({
@@ -190,4 +192,69 @@ export const getMyBrainContents = async (brainId: number) => {
   });
 
   return myBrainContents;
+};
+
+export const shareBrain = async (brainId: number, share: boolean) => {
+  const brainsPublicLink = await db.$transaction(async (tx) => {
+    if (!share) {
+      await tx.brain.update({
+        where: {
+          id: brainId,
+        },
+        data: {
+          share: false,
+          Link: { delete: true },
+        },
+      });
+
+      return {
+        message: 'Shareable links removed successfully',
+      };
+    }
+
+    const existingLink = await tx.link.findUnique({
+      where: {
+        brainId,
+      },
+      select: {
+        hash: true,
+      },
+    });
+
+    if (existingLink) {
+      return {
+        link: `${process.env.NEXTAUTH_URL}/explore/${existingLink.hash}`,
+      };
+    }
+
+    const shareableLink = await tx.brain.update({
+      where: {
+        id: brainId,
+        share: false,
+      },
+      data: {
+        share: true,
+        Link: {
+          create: {
+            hash: uuidv4(),
+          },
+        },
+      },
+      select: {
+        Link: {
+          select: {
+            hash: true,
+          },
+        },
+      },
+    });
+
+    return {
+      link: `${process.env.NEXTAUTH_URL}/explore/${shareableLink.Link?.hash}`,
+    };
+  });
+
+  revalidatePath('/explore');
+
+  return brainsPublicLink;
 };

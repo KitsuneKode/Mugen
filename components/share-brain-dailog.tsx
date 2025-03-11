@@ -1,6 +1,6 @@
 'use client';
 
-import { getMyPrivateBrainsNames } from '@/app/actions/lib';
+import { getMyPrivateBrainsNames, shareBrain } from '@/app/actions/lib';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -13,7 +13,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { session } from '@/lib/auth';
-import axios from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Brain, Copy, Globe, RefreshCw, Share2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
@@ -68,14 +67,11 @@ export function ShareBrainDialog({
 
   const handleShare = async () => {
     try {
-      const response = await axios.post('/api/brain/share', {
-        share: isPublic,
-        brainId: selectedBrain,
-      });
+      const response = await shareBrain(selectedBrain!, isPublic);
 
-      if (response.status === 200) {
+      if (response.link) {
         toast.success('Brain shared successfully');
-        setPublicLink(response.data.link);
+        setPublicLink(response.link);
       }
     } catch (err) {
       console.error(err);
