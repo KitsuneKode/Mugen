@@ -1,8 +1,8 @@
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function DashboardLoading() {
   return (
-    <div className="py-8 px-4">
+    <div className="py-24 px-4">
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
@@ -19,7 +19,10 @@ export default function DashboardLoading() {
           {Array(6)
             .fill(0)
             .map((_, i) => (
-              <div key={i} className="bg-card border border-border/50 rounded-xl p-6">
+              <div
+                key={i}
+                className="bg-card border border-border/50 rounded-xl p-6"
+              >
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex items-center gap-2">
                     <Skeleton className="h-5 w-5 rounded-full" />
@@ -46,6 +49,5 @@ export default function DashboardLoading() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

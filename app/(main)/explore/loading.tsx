@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton';
 
-export default function Loading() {
+export default function ExploreLoading() {
   return (
     <div className="py-24 px-4">
       <div className="container mx-auto">

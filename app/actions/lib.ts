@@ -154,6 +154,48 @@ export const getMyPrivateBrainsNames = async (userId: number) => {
   return myBrains;
 };
 
+export const getMyBrainsWithNotContent = async (
+  userId: number,
+  contentId: number
+) => {
+  const myBrains = await db.brain.findMany({
+    where: {
+      userId,
+      Contents: {
+        none: {
+          id: contentId,
+        },
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+    },
+  });
+  return myBrains;
+};
+
+export const getMyContentsNotInBrain = async (
+  userId: number,
+  brainId: number
+) => {
+  const myContents = await db.content.findMany({
+    where: {
+      userId,
+      Brains: {
+        none: {
+          id: brainId,
+        },
+      },
+    },
+    select: {
+      id: true,
+      title: true,
+    },
+  });
+  return myContents;
+};
+
 export const getMyBrainContents = async (brainId: number) => {
   const myBrainContents = await db.brain.findUnique({
     where: { id: brainId },
