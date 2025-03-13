@@ -18,10 +18,10 @@ export default function Layout({
 }>) {
   return (
     <div className="flex min-h-screen">
-      <div className="flex flex-col flex-1">
+      <Sidebar />
+      <div className="flex flex-col flex-1 transition-all duration-300">
         <div className="fixed inset-0 bg-gradient-to-bl from-primary/20 via-background/30 to-secondary/10 -z-10" />
         <Navbar />
-        <Sidebar />
         <div className="flex-1 overflow-auto">{children}</div>
       </div>
     </div>

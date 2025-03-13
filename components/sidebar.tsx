@@ -41,7 +41,7 @@ export default function Sidebar() {
   return (
     <div
       className={cn(
-        'flex flex-col h-screen bg-card border-r border-border transition-all duration-300 fixed z-50',
+        'flex flex-col h-screen bg-card border-r border-border transition-all duration-300 z-60',
         isCollapsed ? 'w-0 md:w-20' : 'w-0 md:w-56'
       )}
     >

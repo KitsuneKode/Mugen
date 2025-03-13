@@ -10,7 +10,7 @@ import { ThemeToggle } from './theme-toggle';
 import { user } from '@/lib/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { signOut, useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from './ui/button';
 import Logo from './logo';
@@ -20,6 +20,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<string>('1');
+  const pathname = usePathname();
 
   const avatarInitials = data
     ? (data?.user as user).name.split(' ').map((n) => n[0])
@@ -35,11 +36,15 @@ export default function Navbar() {
       <header className="fixed top-0 left-0 w-full border-b border-border/70 bg-card backdrop-blur-sm supports-backdrop-filter:bg-card/60 z-50">
         <div className="container flex h-16 items-center justify-between">
           <div className="p-8 ">
-            <Logo
-              height={32}
-              width={32}
-              className={`w-12 h-12 absolute top-1 left-2`}
-            />
+            <Link
+              href={pathname === '/dashboard' ? '/' : '/dashboard'}
+              className="flex items-center absolute top-1 left-2 gap-2 p-2"
+            >
+              <Logo height={32} width={32} className={`w-12 h-12`} />
+              <h1 className=" text-xl font-bold font-space-grotesk md:hidden flex">
+                Mugen
+              </h1>
+            </Link>
           </div>
           <nav className="hidden md:flex items-center gap-6">
             <NavLink href="/dashboard">Dashboard</NavLink>
