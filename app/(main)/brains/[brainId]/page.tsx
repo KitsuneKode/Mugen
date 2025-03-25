@@ -3,10 +3,8 @@ import AnimatedBrain from '@/components/animated-brain';
 import BrainContentButtons from '@/components/brain-content-button';
 import { ContentCard } from '@/components/content-card';
 import PublicBrainEmpty from '@/components/empty-states/empty-brain-contents';
-import { Redirect } from '@/components/redirect';
-import { authOptions } from '@/lib/auth';
 import type { ContentType } from '@prisma/client';
-import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
 interface BrainContents {
   id: number;
@@ -29,22 +27,17 @@ export default async function ContentPage({
 }: {
   params: Promise<{ brainId: string }>;
 }) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    return <Redirect to="/signin" />;
-  }
 
   const { brainId } = await params;
 
   if (!brainId || isNaN(Number(brainId))) {
-    return <Redirect to="/not-found" />;
+    return redirect('/not-found');
   }
 
   const brainContents = await getMyBrainContents(Number(brainId));
 
   if (!brainContents) {
-    return <Redirect to="/not-found" />;
+    return redirect('/not-found');
   }
 
   if (brainContents.Contents.length === 0) {

@@ -20,6 +20,7 @@ import { user } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
 import axios, { AxiosResponse } from 'axios';
 import { toast } from 'sonner';
+import { shareBrain } from '@/app/actions/lib';
 
 interface Schema extends BrainSchema {
   user: {
@@ -81,21 +82,11 @@ export default function BrainCard({
                   className="hover:bg-accent rounded-md w-10 h-10 bg-transparent transition-colors hover:scale-110"
                   onClick={async () => {
                     try {
-                      const response: AxiosResponse = await axios.post(
-                        '/api/brain/share',
-                        {
-                          share: false,
-                          brainId: brain.id,
-                        }
-                      );
-
-                      if (response.status === 200) {
+                      await shareBrain(brain.id, false)
                         toast.success(
                           'Brain converted to private successfully'
                         );
-
-                        router.refresh();
-                      }
+                      router.refresh();
                     } catch {
                       toast.error('Failed to private brain');
                     }

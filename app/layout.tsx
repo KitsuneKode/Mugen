@@ -7,6 +7,7 @@ import './globals.css';
 import { Providers } from './providers';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import NextTopLoader from 'nextjs-toploader';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const spaceGrotesk = Space_Grotesk({
@@ -32,7 +33,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans`}>
         <Providers>
-          <div className="flex min-h-screen">
+  	<NextTopLoader
+          showSpinner={false}
+        />
+	<div className="flex min-h-screen">
             <main className="flex-1 overflow-auto">{children}</main>
             <Toaster richColors />
             <Analytics />

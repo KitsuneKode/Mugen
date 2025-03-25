@@ -1,18 +1,17 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
 import { Brain } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { motion } from 'framer-motion';
 
 export default function SignInComponent() {
-  const router = useRouter();
+  // const router = useRouter();
   const email = useRef('');
   const password = useRef('');
 
@@ -64,7 +63,8 @@ export default function SignInComponent() {
     const res = await signIn('credentials', {
       email: email.current,
       password: password.current,
-      redirect: false,
+      redirect: true,
+      callbackUrl: '/dashboard',
     });
 
     toast.dismiss(loadId);
@@ -84,8 +84,8 @@ export default function SignInComponent() {
       setCheckingPassword(false);
     } else {
       setCheckingPassword(false);
-      router.push('/dashboard');
       toast.success('Signed In Successfully');
+      // redirect('/dashboard');
     }
   };
 

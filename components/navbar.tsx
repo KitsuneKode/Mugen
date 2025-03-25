@@ -62,7 +62,10 @@ export default function Navbar() {
                   return redirect('/signin');
                 }
                 setLoading(true);
-                await signOut();
+                await signOut({
+                  redirect: pathname === '/explore' ? false : true,
+                  callbackUrl: '/',
+                });
                 toast.success('Logged out successfully');
                 setLoading(false);
               }}
@@ -154,15 +157,23 @@ export default function Navbar() {
               <Button
                 className="m-2 hover:cursor-pointer"
                 onClick={async () => {
+                  if (status === 'unauthenticated') {
+                    return redirect('/signin');
+                  }
                   setLoading(true);
                   await signOut({
-                    redirect: false,
+                    redirect: pathname === '/explore' ? false : true,
+                    callbackUrl: '/',
                   });
                   toast.success('Logged out successfully');
                   setLoading(false);
                 }}
               >
-                {loading ? 'Logging out...' : 'Logout'}
+                {status === 'unauthenticated'
+                  ? 'Signin'
+                  : loading
+                  ? 'Logging out...'
+                  : 'Logout'}
               </Button>
               {/* </div> */}
             </nav>
