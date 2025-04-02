@@ -1,36 +1,162 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 Mugen Brain - Your AI-Powered Second Brain
 
-## Getting Started
+<div align="center">
+  
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-mugen--brain.tech-blue?style=for-the-badge)](https://mugen-brain.tech)
+![Built with Next.js](https://img.shields.io/badge/Built%20with-Next.js-black?style=for-the-badge&logo=next.js)
+![Powered by AI](https://img.shields.io/badge/Powered%20by-AI-purple?style=for-the-badge&logo=openai)
 
-First, run the development server:
+> *"Where infinite knowledge meets finite memory capacity!"* 🤖
 
+</div>
+
+## 🎥 Demo
+
+[Insert Demo Video Here]
+
+## 📸 Screenshots
+
+[Insert Screenshots Here]
+
+## 🌟 Key Features
+
+### 🧠 Brain Management
+- **Multiple Brains**: Create separate brains for different topics or projects
+- **Privacy Controls**: Make your brain public or keep it private
+- **Sharing Options**: Share your knowledge with the world or keep it to yourself
+- **Collaborative Features**: Work together on shared brains (coming soon)
+
+### 📱 Content Integration
+- **Reddit Posts**: Save and analyze interesting Reddit discussions
+- **Twitter Tweets**: Keep track of important tweets and threads
+- **YouTube Videos**: Save videos with timestamps and transcripts
+- **Web Articles**: Save and summarize web content
+- **Custom Notes**: Add your own thoughts and notes
+
+### 🤖 AI-Powered Features
+- **Smart Chat**: Natural conversations with your knowledge base
+- **Content Analysis**: AI-powered insights and connections
+- **Semantic Search**: Find related content across different sources
+- **Tag Suggestions**: Automatic tag recommendations
+- **Content Summarization**: Quick summaries of saved content
+
+### 🎨 User Experience
+- **Dark/Light Mode**: Easy on the eyes, day or night
+- **Responsive Design**: Works on all devices
+- **Real-time Updates**: Instant content syncing
+- **Markdown Support**: Beautiful content formatting
+- **Customizable Interface**: Make it yours
+
+## 🛠️ Tech Stack
+
+- **Frontend/Backend**: Next.js 15 (App Router)
+- **Styling**: Tailwind CSS + Shadcn UI
+- **AI Integration**: Advanced LLM Implementation
+- **Authentication**: Next-Auth
+- **Database**: PostgreSQL, Prisma ORM
+- **Content Processing**: Vector Database for semantic search
+
+## 🚀 Getting Started
+
+1. **Clone the repo**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Kitsunekode/mugen.git
+cd mugen
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install dependencies**
+```bash
+pnpm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Set up environment variables**
+```bash
+cp .env.example .env
+# Configure your API keys and database connections
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. **Run the development server**
+```bash
+pnpm dev
+# Open http://localhost:3000 and start building your second brain! 🧠
+```
 
-## Learn More
+## 💡 Use Cases
 
-To learn more about Next.js, take a look at the following resources:
+### 📚 For Students
+- Save and organize research materials
+- Create study guides
+- Collaborate on group projects
+- Track course resources
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 💼 For Professionals
+- Knowledge management
+- Project documentation
+- Research organization
+- Client resource tracking
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🔬 For Researchers
+- Literature review organization
+- Data collection
+- Reference management
+- Research collaboration
 
-## Deploy on Vercel
+### 🎨 For Content Creators
+- Content inspiration
+- Research organization
+- Reference library
+- Content planning
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎯 Content Types Supported
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 📱 Social Media Posts
+  - Reddit posts and comments
+  - Twitter threads and tweets
+  - LinkedIn articles(coming soon)
+  
+- 🎥 Video Content
+  - YouTube videos
+  - Video timestamps
+  - Auto-generated transcripts
+  
+- 📄 Text Content
+  - Web articles
+  - Blog posts
+  - Documentation
+  - Personal notes
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how you can help:
+
+1. Fork the repo
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 🐛 Known Issues
+
+- Sometimes the AI gets too excited about cat videos
+- May cause excessive organization addiction
+- Might make you too productive
+
+## 🔮 Upcoming Features
+
+- 🤝 Collaborative brain editing
+- 🔄 Advanced content synchronization
+- 🎙️ Voice notes integration
+- 📊 Advanced analytics dashboard
+- 🌐 API access for developers
+
+---
+
+<div align="center">
+
+Built with 💜 by developers who forgot where they saved their coffee mug
+
+[Live Demo](https://mugen-brain.tech) | [Report Bug](https://github.com/Kitsunekode/mugen/issues) | [Request Feature](https://github.com/Kitsunekode/mugen/issues)
+
+</div>
+
+> "Why did the developer go broke? Because he used up all his cache!" 🪙

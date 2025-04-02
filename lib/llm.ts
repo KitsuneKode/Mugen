@@ -1,5 +1,5 @@
-import { google } from '@ai-sdk/google';
-import { type Message, streamText } from 'ai';
+import { google } from "@ai-sdk/google";
+import { type Message, streamText } from "ai";
 
 export interface queryResponseObject {
   id: string;
@@ -148,6 +148,8 @@ Remember:
 - Acknowledge when information is limited or unclear
 - Suggest relevant tags when appropriate
 - Consider tag context in responses
+- Consider user preferences and past interactions
+- If no relevant content is found, inform them that there is no relevant content in their knowledge base and instruct them to search the web
 `;
 
   const latestMessageContent = `
@@ -165,10 +167,10 @@ Remember:
   messages[messages.length - 1].content = latestMessageContent;
 
   return streamText({
-    model: google('gemini-2.0-flash-001', {
+    model: google("gemini-2.0-flash-001", {
       useSearchGrounding: search,
       dynamicRetrievalConfig: {
-        mode: 'MODE_DYNAMIC',
+        mode: "MODE_DYNAMIC",
         dynamicThreshold: 0.8,
       },
     }),

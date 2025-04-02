@@ -4,5 +4,5 @@ module.exports = {
       // ... other extensions
     },
   },
-  plugins: [import('tailwind-scrollbar')],
+  plugins: [import("tailwind-scrollbar"), import("tailwindcss-animate")],
 };
