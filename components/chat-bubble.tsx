@@ -1,22 +1,17 @@
-'use client';
-import { Bot, User } from 'lucide-react';
-import { motion } from 'framer-motion';
-import ReactMarkdown from 'react-markdown';
-import { cn } from '@/lib/utils';
-import type { UIMessage } from 'ai';
+"use client";
+import { Bot, User } from "lucide-react";
+import { motion } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+import { cn } from "@/lib/utils";
+import type { UIMessage } from "ai";
 
 interface ChatBubbleProps {
   message: UIMessage;
   isLoading?: boolean;
-  isLastMessage?: boolean;
 }
 
-export function ChatBubble({
-  message,
-  isLoading = false,
-  isLastMessage = false,
-}: ChatBubbleProps) {
-  const isUser = message.role === 'user';
+export function ChatBubble({ message, isLoading = false }: ChatBubbleProps) {
+  const isUser = message.role === "user";
 
   return (
     <motion.div
@@ -24,16 +19,16 @@ export function ChatBubble({
       animate={{ opacity: 1 }}
       transition={{
         duration: 0.1,
-        type: 'tween',
+        type: "tween",
       }}
-      className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}
+      className={`flex ${isUser ? "justify-end" : "justify-start"}`}
     >
       <motion.div
         className={cn(
-          'flex gap-3 max-w-[80%] rounded-lg p-3',
+          "flex gap-3 max-w-[80%] rounded-lg p-3",
           isUser
-            ? 'bg-primary text-primary-foreground ml-auto'
-            : 'bg-secondary text-secondary-foreground'
+            ? "bg-primary text-primary-foreground ml-auto"
+            : "bg-secondary text-secondary-foreground",
         )}
       >
         {!isUser && (
@@ -50,6 +45,7 @@ export function ChatBubble({
                   {children}
                 </p>
               ),
+              // eslint-disable-next-line
               a: ({ node, ...props }) => (
                 <a
                   {...props}
@@ -58,7 +54,8 @@ export function ChatBubble({
                   rel="noopener noreferrer"
                 />
               ),
-              //@ts-ignore
+              // @ts-ignore
+              // eslint-disable-next-line
               code: ({ node, inline, className, children, ...props }) => {
                 return inline ? (
                   <code
