@@ -39,6 +39,8 @@ export function AddBrainDialog({ open, onOpenChange }: ShareBrainDialogProps) {
 
   const userId = (session.data as session)?.user?.id;
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     const fetchContent = async () => {
       const response = await getMyContentsName(Number(userId));
@@ -55,6 +57,8 @@ export function AddBrainDialog({ open, onOpenChange }: ShareBrainDialogProps) {
   }, [session.status, userId]);
 
   const handleAddBrain = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
     try {
       const response = await axios.post(
         '/api/brain',
@@ -75,21 +79,15 @@ export function AddBrainDialog({ open, onOpenChange }: ShareBrainDialogProps) {
       }
     } catch {
       toast.error('Failed to add brain');
+    } finally {
+      setIsLoading(false);
       setName('');
       setDescription('');
       setSharedContent([]);
       setContent([{ title: '', id: 0 }]);
       onOpenChange(false);
-      return;
+      router.refresh();
     }
-
-    setName('');
-    setDescription('');
-    setSharedContent([]);
-    setContent([{ title: '', id: 0 }]);
-    onOpenChange(false);
-
-    router.refresh();
   };
 
   return (
@@ -170,9 +168,22 @@ export function AddBrainDialog({ open, onOpenChange }: ShareBrainDialogProps) {
               <div className="text-sm text-muted-foreground p-2"></div>
 
               {sharedContent.length > 0 && name && description && (
-                <Button onClick={handleAddBrain} className="w-full ">
-                  <Brain className="mr-2 h-4 w-4" />
-                  Add Brain
+                <Button
+                  onClick={handleAddBrain}
+                  className="w-full"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <span className="animate-spin mr-2">⏳</span>
+                      Adding...
+                    </>
+                  ) : (
+                    <>
+                      <Brain className="mr-2 h-4 w-4" />
+                      Add Brain
+                    </>
+                  )}
                 </Button>
               )}
             </div>

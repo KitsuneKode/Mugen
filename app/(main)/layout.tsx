@@ -1,14 +1,14 @@
-import '@/app/globals.css';
-import type { Metadata } from 'next';
-import type React from 'react';
-import Sidebar from '@/components/sidebar';
-import Navbar from '@/components/navbar';
+import "@/app/globals.css";
+import type { Metadata } from "next";
+import type React from "react";
+import Sidebar from "@/components/sidebar";
+import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
-  title: 'Mugen Dashboard',
+  title: "Mugen Dashboard",
   description:
-    'Organize your digital life with Mugen Second Brain - a place to store, connect, and interact with your content.',
-  icons: '/logo.svg',
+    "Organize your digital life with Mugen Second Brain - a place to store, connect, and interact with your content.",
+  icons: "/logo.svg",
 };
 
 export default function Layout({

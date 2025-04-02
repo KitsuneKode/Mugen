@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   Brain,
   ChevronLeft,
@@ -11,29 +11,29 @@ import {
   LinkIcon,
   Twitter,
   Video,
-} from 'lucide-react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { toast } from 'sonner';
-import Logo from './logo';
-import Reddit from './reddit';
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+import Logo from "./logo";
+import Reddit from "./reddit";
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const pathname = usePathname();
 
   const navItems = [
-    { icon: Twitter, label: 'Tweets', href: '#tweets' },
-    { icon: Video, label: 'Videos', href: '#videos' },
-    { icon: FileText, label: 'Documents', href: '#documents' },
-    { icon: LinkIcon, label: 'Links', href: '#links' },
-    { icon: Reddit, label: 'Reddit', href: '#reddit' },
-    { icon: Hash, label: 'Tags', href: '#tags' },
+    { icon: Twitter, label: "Tweets", href: "#tweets" },
+    { icon: Video, label: "Videos", href: "#videos" },
+    { icon: FileText, label: "Documents", href: "#documents" },
+    { icon: LinkIcon, label: "Links", href: "#links" },
+    { icon: Reddit, label: "Reddit", href: "#reddit" },
+    { icon: Hash, label: "Tags", href: "#tags" },
   ];
 
   const handleChatClick = () => {
-    toast.info('Coming soon', {
+    toast.info("Coming soon", {
       icon: <Brain className="h-4 w-4 " />,
     });
   };
@@ -41,13 +41,14 @@ export default function Sidebar() {
   return (
     <div
       className={cn(
-        'flex flex-col h-screen bg-card border-r border-border transition-all duration-300 z-60',
-        isCollapsed ? 'w-0 md:w-20' : 'w-0 md:w-56'
+        "sticky flex flex-col h-screen bg-card border-r border-border transition-all duration-300 z-60",
+
+        isCollapsed ? "w-0 md:w-20" : "w-0 md:w-56",
       )}
     >
       <div className="hidden md:flex items-center justify-between p-4 border-b border-border">
         <Link
-          href={pathname === '/dashboard' ? '/' : '/dashboard'}
+          href={pathname === "/dashboard" ? "/" : "/dashboard"}
           className="flex items-center gap-2 "
         >
           <Logo
@@ -55,8 +56,8 @@ export default function Sidebar() {
             height={8}
             className={
               isCollapsed
-                ? 'h-8 w-8 mr-0 pr-0 scale-110 ml-1'
-                : 'h-10 w-12 mx-2'
+                ? "h-8 w-8 mr-0 pr-0 scale-110 ml-1"
+                : "h-10 w-12 mx-2"
             }
           />
           {!isCollapsed && (
@@ -84,15 +85,15 @@ export default function Sidebar() {
               <Link href={item.href}>
                 <span
                   className={cn(
-                    'flex items-center gap-3 px-3 py-2 rounded-md transition-colors',
+                    "flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
                     pathname === item.href
-                      ? 'bg-primary text-primary'
-                      : 'text-muted-foreground hover:bg-primary/15 hover:text-primary',
-                    !isCollapsed && 'ml-6'
+                      ? "bg-primary text-primary"
+                      : "text-muted-foreground hover:bg-primary/15 hover:text-primary",
+                    !isCollapsed && "ml-6",
                   )}
                 >
                   <item.icon
-                    className={`h-5 w-5 text-primary ${isCollapsed && 'ml-2'}`}
+                    className={`h-5 w-5 text-primary ${isCollapsed && "ml-2"}`}
                   />
                   {!isCollapsed && <span>{item.label}</span>}
                 </span>
@@ -107,8 +108,8 @@ export default function Sidebar() {
           variant="default"
           className={`w-full justify-center gap-2 h-10 ${
             isCollapsed
-              ? 'rounded-full z-10 scale-125 hover:scale-140 fixed right-8 bottom-10 w-fit'
-              : 'rounded-full z-10 scale-125 hover:scale-140 fixed right-8 bottom-10 w-fit md:right-0 md:scale-100 md:hover:scale-110 md:rounded-2xl md:w-full md:static'
+              ? "rounded-full z-10 scale-125 hover:scale-140 fixed right-8 bottom-10 w-fit"
+              : "rounded-full z-10 scale-125 hover:scale-140 fixed right-8 bottom-10 w-fit md:right-0 md:scale-100 md:hover:scale-110 md:rounded-2xl md:w-full md:static"
           }`}
           onClick={handleChatClick}
         >

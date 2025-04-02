@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { Github, Twitter, Linkedin, Heart } from 'lucide-react';
-import Logo from './logo';
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { Github, Twitter, Linkedin, Heart } from "lucide-react";
+import Logo from "./logo";
 
 export default function Footer() {
   const handleScroll = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    targetId: string
+    targetId: string,
   ) => {
     e.preventDefault();
 
@@ -17,8 +17,8 @@ export default function Footer() {
 
       if (targetElement) {
         targetElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
+          behavior: "smooth",
+          block: "start",
         });
       }
     } catch {
@@ -30,38 +30,38 @@ export default function Footer() {
 
   const footerLinks = [
     {
-      title: 'Product',
+      title: "Product",
       links: [
-        { label: 'Features', href: '#features' },
-        { label: 'Pricing', href: '#pricing' },
-        { label: 'Roadmap', href: '#roadmap' },
-        { label: 'Documentation', href: '#docs' },
+        { label: "Features", href: "#features" },
+        { label: "Pricing", href: "#pricing" },
+        { label: "Roadmap", href: "#roadmap" },
+        { label: "Documentation", href: "#docs" },
       ],
     },
     {
-      title: 'Company',
+      title: "Company",
       links: [
-        { label: 'About', href: '#about' },
-        { label: 'Blog', href: '#blog' },
-        { label: 'Careers', href: '#careers' },
-        { label: 'Contact', href: 'mailto:bhuyanmanash2002@gmail.com' },
+        { label: "About", href: "#about" },
+        { label: "Blog", href: "#blog" },
+        { label: "Careers", href: "#careers" },
+        { label: "Contact", href: "mailto:bhuyanmanash2002@gmail.com" },
       ],
     },
     {
-      title: 'Legal',
+      title: "Legal",
       links: [
-        { label: 'Privacy', href: '#privacy' },
-        { label: 'Terms', href: '#terms' },
-        { label: 'Status', href: '#status' },
-        { label: 'Cookie Settings', href: '#cookies' },
+        { label: "Privacy", href: "#privacy" },
+        { label: "Terms", href: "#terms" },
+        { label: "Status", href: "#status" },
+        { label: "Cookie Settings", href: "#cookies" },
       ],
     },
   ];
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com/kitsunekode' },
-    { icon: Twitter, href: 'https://x.com/kitsunekode' },
-    { icon: Linkedin, href: 'https://linkedin.com/in/kitsunekode' },
+    { icon: Github, href: "https://github.com/kitsunekode" },
+    { icon: Twitter, href: "https://x.com/kitsunekode" },
+    { icon: Linkedin, href: "https://linkedin.com/in/kitsunekode" },
   ];
 
   return (
@@ -80,7 +80,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-2 mb-4">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                transition={{ type: 'spring', stiffness: 400 }}
+                transition={{ type: "spring", stiffness: 400 }}
               >
                 <div className="flex p-2 gap-2">
                   <Logo
@@ -105,7 +105,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors"
                   whileHover={{ scale: 1.1 }}
-                  transition={{ type: 'spring', stiffness: 400 }}
+                  transition={{ type: "spring", stiffness: 400 }}
                 >
                   <social.icon className="h-5 w-5" />
                 </motion.a>
@@ -128,7 +128,7 @@ export default function Footer() {
                   <motion.li
                     key={linkIndex}
                     whileHover={{ x: 5 }}
-                    transition={{ type: 'spring', stiffness: 300 }}
+                    transition={{ type: "spring", stiffness: 300 }}
                   >
                     <Link
                       href={link.href}
@@ -152,7 +152,7 @@ export default function Footer() {
           viewport={{ once: true }}
         >
           <div className="text-sm text-muted-foreground flex items-center gap-1">
-            Made with <Heart className="h-4 w-4 text-red-500" /> by{' '}
+            Made with <Heart className="h-4 w-4 text-red-500" /> by{" "}
             <motion.a
               href="https://x.com/kitsunekode"
               target="_blank"

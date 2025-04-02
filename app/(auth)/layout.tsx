@@ -1,12 +1,12 @@
-import '@/app/globals.css';
-import type { Metadata } from 'next';
-import type React from 'react';
+import "@/app/globals.css";
+import type { Metadata } from "next";
+import type React from "react";
 
 export const metadata: Metadata = {
-  title: 'Mugen Signup',
+  title: "Mugen Signup",
   description:
-    'Organize your digital life with Second Brain - a place to store, connect, and interact with your content from across the web.',
-  icons: '/logo.svg',
+    "Organize your digital life with Second Brain - a place to store, connect, and interact with your content from across the web.",
+  icons: "/logo.svg",
 };
 
 export default function Layout({

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { type Brain as BrainSchema } from '@prisma/client';
-import { motion } from 'framer-motion';
+import { type Brain as BrainSchema } from "@prisma/client";
+import { motion } from "framer-motion";
 import {
   Brain,
   User,
@@ -10,17 +10,17 @@ import {
   Globe,
   GlobeLockIcon,
   Trash2,
-} from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from './ui/button';
-import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { user } from '@/lib/auth';
-import { useRouter } from 'next/navigation';
-import axios, { AxiosResponse } from 'axios';
-import { toast } from 'sonner';
-import { shareBrain } from '@/app/actions/lib';
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "./ui/button";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { user } from "@/lib/auth";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "sonner";
+import { shareBrain } from "@/app/actions/lib";
 
 interface Schema extends BrainSchema {
   user: {
@@ -45,11 +45,51 @@ export default function BrainCard({
   const { status, data } = useSession();
   const [isOwner, setIsOwner] = useState(false);
   const router = useRouter();
+  const [isShareLoading, setIsShareLoading] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   useEffect(() => {
-    if (status === 'authenticated') {
+    if (status === "authenticated") {
       setIsOwner(Number((data?.user as user).id) == brain.userId);
     }
   }, [status, data, brain.userId]);
+
+  const handleShareToggle = async () => {
+    if (isShareLoading) return;
+    setIsShareLoading(true);
+    try {
+      await shareBrain(brain.id, false);
+      toast.success("Brain converted to private successfully");
+      router.refresh();
+    } catch {
+      toast.error("Failed to private brain");
+    } finally {
+      setIsShareLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (isDeleteLoading) return;
+    setIsDeleteLoading(true);
+    try {
+      const response = await axios.delete("/api/brain", {
+        data: { brainId: brain.id },
+      });
+
+      if (response.status === 200) {
+        toast.success("Brain deleted successfully");
+        router.refresh();
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error("Cannot delete a public brain, please unshare it first");
+      } else {
+        toast.error("Failed to delete brain");
+      }
+    } finally {
+      setIsDeleteLoading(false);
+    }
+  };
+
   return (
     <motion.div
       className="bento-card bg-card border border-border/50"
@@ -80,51 +120,26 @@ export default function BrainCard({
               {brain.share && (
                 <Button
                   className="hover:bg-accent rounded-md w-10 h-10 bg-transparent transition-colors hover:scale-110"
-                  onClick={async () => {
-                    try {
-                      await shareBrain(brain.id, false)
-                        toast.success(
-                          'Brain converted to private successfully'
-                        );
-                      router.refresh();
-                    } catch {
-                      toast.error('Failed to private brain');
-                    }
-                  }}
+                  onClick={handleShareToggle}
+                  disabled={isShareLoading}
                 >
-                  <GlobeLockIcon className="h-8 w-8 text-primary m-0" />
+                  {isShareLoading ? (
+                    <span className="animate-spin">⏳</span>
+                  ) : (
+                    <GlobeLockIcon className="h-8 w-8 text-primary m-0" />
+                  )}
                 </Button>
               )}
               <Button
                 className="hover:bg-accent rounded-md w-10 h-10 bg-transparent transition-colors hover:scale-110"
-                onClick={async () => {
-                  try {
-                    const response: AxiosResponse = await axios.delete(
-                      '/api/brain',
-                      {
-                        data: {
-                          brainId: brain.id,
-                        },
-                      }
-                    );
-
-                    if (response.status === 200) {
-                      toast.success('Brain deleted successfully');
-
-                      router.refresh();
-                    }
-                  } catch (error) {
-                    if (axios.isAxiosError(error)) {
-                      toast.error(
-                        `Cannot delete a public brain, please unshare it first`
-                      );
-                    } else {
-                      toast.error('Failed to delete brain');
-                    }
-                  }
-                }}
+                onClick={handleDelete}
+                disabled={isDeleteLoading}
               >
-                <Trash2 className="h-8 w-8 text-primary" />
+                {isDeleteLoading ? (
+                  <span className="animate-spin">⏳</span>
+                ) : (
+                  <Trash2 className="h-8 w-8 text-primary" />
+                )}
               </Button>
             </div>
           )}

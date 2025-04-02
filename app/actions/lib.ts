@@ -1,7 +1,18 @@
-'use server';
-import db from '@/db';
-import { randomUUID as uuidv4 } from 'crypto';
-import { revalidatePath } from 'next/cache';
+"use server";
+import db from "@/db";
+import { randomUUID as uuidv4 } from "crypto";
+import { revalidatePath } from "next/cache";
+
+export const getUserTags = async (userId: number) => {
+  const userTags = await db.user.findUnique({
+    where: { id: userId },
+    select: {
+      Tags: true,
+    },
+  });
+  console.log(userTags);
+  return userTags;
+};
 
 export const getPublicBrains = async () => {
   const publicBrains = await db.brain.findMany({
@@ -156,7 +167,7 @@ export const getMyPrivateBrainsNames = async (userId: number) => {
 
 export const getMyBrainsWithNotContent = async (
   userId: number,
-  contentId: number
+  contentId: number,
 ) => {
   const myBrains = await db.brain.findMany({
     where: {
@@ -177,7 +188,7 @@ export const getMyBrainsWithNotContent = async (
 
 export const getMyContentsNotInBrain = async (
   userId: number,
-  brainId: number
+  brainId: number,
 ) => {
   const myContents = await db.content.findMany({
     where: {
@@ -250,7 +261,7 @@ export const shareBrain = async (brainId: number, share: boolean) => {
       });
 
       return {
-        message: 'Shareable links removed successfully',
+        message: "Shareable links removed successfully",
       };
     }
 
@@ -296,7 +307,7 @@ export const shareBrain = async (brainId: number, share: boolean) => {
     };
   });
 
-  revalidatePath('/explore');
+  revalidatePath("/explore");
 
   return brainsPublicLink;
 };

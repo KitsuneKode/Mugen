@@ -19,11 +19,12 @@ model User {
   password  String
   email     String    @unique
   Contents  Content[]
-  Tags      Tag[]
+  Tags      Tag[]     @relation("UserTags")
   Brains    Brain[]
   avatarId  Int
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  Chats     Chat[]
 }
 
 model Content {
@@ -31,7 +32,7 @@ model Content {
   type      ContentType
   title     String
   link      String
-  Tags      Tag[]
+  Tags      Tag[]       @relation("ContentTags")
   userId    Int
   user      User        @relation(fields: [userId], references: [id])
   Brains    Brain[]
@@ -42,11 +43,12 @@ model Content {
 model Tag {
   id        Int       @id @unique @default(autoincrement())
   tag       String    @unique
-  Contents  Content[]
-  Users     User[]
-  Brains    Brain[]
+  Contents  Content[] @relation("ContentTags")
+  Users     User[]    @relation("UserTags")
+  Brains    Brain[]   @relation("BrainTags")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  Chat      Chat[]    @relation("ChatTags")
 }
 
 model Brain {
@@ -59,7 +61,7 @@ model Brain {
   Contents    Content[]
   stars       Int       @default(0)
   Link        Link?
-  Tags        Tag[]
+  Tags        Tag[]     @relation("BrainTags")
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
@@ -71,6 +73,17 @@ model Link {
   Brain     Brain    @relation(fields: [brainId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Chat {
+  id        Int      @id @unique @default(autoincrement())
+  name      String
+  messages  String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tags      Tag[]    @relation("ChatTags")
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 enum ContentType {

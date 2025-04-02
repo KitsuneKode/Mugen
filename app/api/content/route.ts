@@ -32,7 +32,30 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
+    console.log(tags);
+
     const result = await db.$transaction(async (tx) => {
+      // First upsert all tags and get their IDs
+      const tagObjects = await Promise.all(
+        tags?.map(async (tag: string) => {
+          return await tx.tag.upsert({
+            where: { tag },
+            create: {
+              tag,
+              Users: {
+                connect: { id: Number(userId) },
+              },
+            },
+            update: {
+              Users: {
+                connect: { id: Number(userId) },
+              },
+            },
+          });
+        })
+      );
+
+      // Then create content with the tags
       return await tx.content.create({
         data: {
           type,
@@ -40,11 +63,15 @@ export const POST = async (req: NextRequest) => {
           title,
           userId: Number(userId),
           Tags: {
-            connectOrCreate:
-              tags?.map((tag: string) => ({
-                where: { tag },
-                create: { tag },
-              })) || [],
+            connect: tagObjects.map((tag) => ({ id: tag.id })),
+          },
+        },
+        include: {
+          Tags: true,
+          user: {
+            include: {
+              Tags: true,
+            },
           },
         },
       });
@@ -61,6 +88,7 @@ export const POST = async (req: NextRequest) => {
 
     return NextResponse.json({
       message: 'Content added successfully',
+      data: result,
     });
   } catch (err) {
     console.error('Error during adding content:', err);
