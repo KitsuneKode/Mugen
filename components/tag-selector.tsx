@@ -55,20 +55,21 @@ export function TagSelector({
       setAvailableTags(userTags);
     };
 
-    if (session.data?.user.id && !availableTags) {
+    if (firstOpen && session.data?.user.id && !availableTags) {
       setTags();
     }
-  }, [session.data, availableTags]);
+  }, [session.data?.user, firstOpen, availableTags]);
 
   const handleTagSelect = (tag: string) => {
-    if (selectedTags.length < 5) {
+    if (selectedTags.includes(tag)) {
+      onTagsChange(selectedTags.filter((t) => t !== tag));
+    } else if (selectedTags.length < 5) {
       onTagsChange([...selectedTags, tag]);
     } else {
       toast.error("You can only select up to 5 tags");
     }
     // Don't close popover after selection to allow multiple selections
   };
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>

@@ -1,6 +1,6 @@
 "use server";
 
-import { Index as UpstashIndex } from "@upstash/vector";
+import { QueryResult, Index as UpstashIndex } from "@upstash/vector";
 import { redis } from "./redis";
 import type { ContentType } from "@prisma/client";
 import { scrapeData } from "./scrapeData";
@@ -130,16 +130,15 @@ export const queryContextFromVecDB = async ({
     return queryResponse ?? "";
   }
 
-  const filteredResponse = queryResponse.map((query) => {
-    //@ts-ignore
+  const filteredResponse = queryResponse.map((query: QueryResult) => {
     const queryFiltered = {
       id: query.id,
       data: query.data,
       score: query.score,
       //@ts-ignore
-      tags: query.metadata[`userId${userId}`].tags,
+      tags: query?.metadata?.[`userId${userId}`]?.tags ?? "",
       //@ts-ignore
-      title: query.metadata?.[`userId${userId}`].title,
+      title: query?.metadata?.[`userId${userId}`]?.title ?? "",
     };
     return queryFiltered;
   });

@@ -128,14 +128,30 @@ export const DELETE = async (req: NextRequest) => {
     }
 
     const result = await db.$transaction(async (tx) => {
-      const existingContent = await tx.content.findFirst({
+      // Get the content with its tags and count of tag usage in a single query
+      const contentWithTagUsage = await tx.content.findFirst({
         where: {
           id: Number(id),
           userId: Number(userId),
         },
+        include: {
+          Tags: {
+            include: {
+              _count: {
+                select: {
+                  Contents: {
+                    where: {
+                      userId: Number(userId),
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       });
 
-      if (!existingContent) {
+      if (!contentWithTagUsage) {
         return {
           message:
             'Content not found or you do not have permission to delete it',
@@ -143,23 +159,44 @@ export const DELETE = async (req: NextRequest) => {
         };
       }
 
+      // Get tags that are only used by this content
+      const tagsToDisconnect = contentWithTagUsage.Tags.filter(
+        (tag) => tag._count.Contents === 1
+      ).map((tag) => ({ id: tag.id }));
+
+      // Bulk disconnect tags from user if any found
+      if (tagsToDisconnect.length > 0) {
+        await tx.user.update({
+          where: { id: Number(userId) },
+          data: {
+            Tags: {
+              disconnect: tagsToDisconnect,
+            },
+          },
+        });
+      }
+
+      // Delete the content
       const deleted = await tx.content.delete({
         where: {
           id: Number(id),
           userId: Number(userId),
         },
       });
+
       if (!deleted) {
         return {
           message: 'Failed to delete content',
           status: 500,
         };
       }
+
       return {
         message: 'Content deleted successfully',
         status: 200,
       };
     });
+
     return NextResponse.json(
       {
         message: result.message,

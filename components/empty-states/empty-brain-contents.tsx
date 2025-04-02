@@ -12,7 +12,7 @@ export default function BrainEmpty({
   publicMode?: boolean;
 }) {
   return (
-    <div className="container mx-auto py-16 px-4">
+    <div className="container mx-auto py-16 px-4 max-h-screen overflow-y-auto">
       <div className="max-w-2xl mx-auto text-center">
         <motion.div
           animate={{

@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
-import { Brain } from 'lucide-react';
-import { signIn } from 'next-auth/react';
-import Link from 'next/link';
-import { useRef, useState } from 'react';
-import { toast } from 'sonner';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { Brain } from "lucide-react";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { useRef, useState } from "react";
+import { toast } from "sonner";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 export default function SignInComponent() {
   // const router = useRouter();
-  const email = useRef('');
-  const password = useRef('');
+  const email = useRef("");
+  const password = useRef("");
 
   const [requiredError, setRequiredError] = useState({
     emailReq: false,
@@ -44,7 +44,7 @@ export default function SignInComponent() {
   };
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
-    const loadId = toast.loading('Signing in...');
+    const loadId = toast.loading("Signing in...");
     if (e) {
       e.preventDefault();
     }
@@ -60,31 +60,31 @@ export default function SignInComponent() {
     email.current = email.current.trim();
 
     setCheckingPassword(true);
-    const res = await signIn('credentials', {
+    const res = await signIn("credentials", {
       email: email.current,
       password: password.current,
       redirect: true,
-      callbackUrl: '/dashboard',
+      callbackUrl: "/dashboard",
     });
 
     toast.dismiss(loadId);
     if (res?.error) {
       // router.push('/error');
       if (res.status === 401) {
-        toast.error('Invalid Credentials, try again!');
+        toast.error("Invalid Credentials, try again!");
       } else if (res.status === 400) {
-        toast.error('Missing Credentials!');
+        toast.error("Missing Credentials!");
       } else if (res.status === 404) {
-        toast.error('Account not found!');
+        toast.error("Account not found!");
       } else if (res.status === 403) {
-        toast.error('Forbidden!');
+        toast.error("Forbidden!");
       } else {
-        toast.error('oops something went wrong..!');
+        toast.error("oops something went wrong..!");
       }
       setCheckingPassword(false);
     } else {
       setCheckingPassword(false);
-      toast.success('Signed In Successfully');
+      toast.success("Signed in Successfully");
       // redirect('/dashboard');
     }
   };
@@ -105,7 +105,7 @@ export default function SignInComponent() {
         <motion.div
           initial={{ scale: 0.95 }}
           animate={{ scale: 1 }}
-          whileHover={{ boxShadow: '0 8px 30px rgba(0,0,0,0.12)' }}
+          whileHover={{ boxShadow: "0 8px 30px rgba(0,0,0,0.12)" }}
           transition={{ duration: 0.3 }}
           className="bg-card border border-border rounded-xl p-8 shadow-xl"
         >
@@ -140,7 +140,7 @@ export default function SignInComponent() {
                   placeholder="name@email.com"
                   onChange={handleEmailChange}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
+                    if (e.key === "Enter") {
                       handleSubmit();
                     }
                   }}
@@ -171,11 +171,11 @@ export default function SignInComponent() {
                     onChange={(e) => {
                       handlePasswordChange(e);
                     }}
-                    type={isPasswordVisible ? 'text' : 'password'}
+                    type={isPasswordVisible ? "text" : "password"}
                     placeholder="••••••••"
                     className="w-full px-3 py-2 bg-background border border-input rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/50"
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
+                      if (e.key === "Enter") {
                         setIsPasswordVisible(false);
                         handleSubmit();
                       }
@@ -243,7 +243,7 @@ export default function SignInComponent() {
 
           <div className="mt-6 pt-6 border-t border-border text-center">
             <p className="text-sm text-muted-foreground">
-              Don&apos;t have an account?{' '}
+              Don&apos;t have an account?{" "}
               <Link href="/signup" className="text-primary hover:underline">
                 Sign up
               </Link>

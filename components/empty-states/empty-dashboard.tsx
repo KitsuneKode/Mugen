@@ -12,7 +12,7 @@ export default function EmptyDashboard() {
   return (
     <>
       <motion.div
-        className="flex flex-col items-center justify-center py-16 px-4 text-center"
+        className="flex flex-col items-center justify-center py-16 px-4 text-center max-h-screen overflow-y-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}

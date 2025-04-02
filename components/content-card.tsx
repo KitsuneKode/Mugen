@@ -262,7 +262,7 @@ export function ContentCard({ content }: { content: ContentCard }) {
               key={allTags.tag}
               className="px-2 py-1 bg-primary/10 text-primary text-sm rounded-md"
             >
-              {allTags.tag}
+              #{allTags.tag}
             </span>
           ))}
         </div>

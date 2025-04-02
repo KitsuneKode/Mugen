@@ -48,14 +48,19 @@ export const scrapeData = async ({ type, url }: ScrapeTypeProps) => {
 
     return response.data;
   } else if (type === "twitter") {
+    const id = url.split("/").pop();
+
+    console.log("id", id);
+
     const response = await axios.get(
-      "https://api.twitterapi.io/twitter/tweets",
+      `https://api.twitterapi.io/twitter/tweets?tweet_ids=${id}`,
       {
         headers: { "X-API-Key": process.env.TWITTER_IO_API_SECRET },
       },
     );
 
-    return response.data;
+    console.log("response", response.data);
+    return response.data.toString();
   } else if (type === "youtube") {
     const responseTranscript = await YoutubeTranscript.fetchTranscript(url);
 

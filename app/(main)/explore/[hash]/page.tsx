@@ -23,14 +23,14 @@ export default async function PublicContentPage({
 
   if (!contents || contents.length === 0) {
     return (
-      <div className="py-24 px-4">
+      <div className="py-24 px-4 max-h-screen overflow-y-auto">
         <PublicBrainEmpty />
       </div>
     );
   }
 
   return (
-    <div className="py-24 px-4">
+    <div className="py-24 px-4 max-h-screen overflow-y-auto">
       <div className="container mx-auto py-8">
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-2 mb-4 halloween-font">

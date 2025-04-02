@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 
 export default async function ExplorePage() {
   return (
-    <div className="py-24 px-4">
+    <div className="py-24 px-4 max-h-screen overflow-y-auto">
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>

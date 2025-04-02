@@ -1,5 +1,6 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
+@plugin 'tailwind-scrollbar';
 @plugin 'tailwindcss-animate';
 
 @custom-variant dark (&:is(.dark *));
@@ -165,7 +166,7 @@
 }
 
 .glow::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -188,7 +189,9 @@
 }
 
 .bento-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   border-radius: 1rem;
   overflow: hidden;
 }
@@ -263,19 +266,35 @@
 
 /* 3D Effects */
 .text-3d {
-  text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9,
-    0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1),
-    0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2),
-    0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2),
+  text-shadow:
+    0 1px 0 #ccc,
+    0 2px 0 #c9c9c9,
+    0 3px 0 #bbb,
+    0 4px 0 #b9b9b9,
+    0 5px 0 #aaa,
+    0 6px 1px rgba(0, 0, 0, 0.1),
+    0 0 5px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    0 3px 5px rgba(0, 0, 0, 0.2),
+    0 5px 10px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.2),
     0 20px 20px rgba(0, 0, 0, 0.15);
 }
 
 .dark .text-3d {
-  text-shadow: 0 1px 0 #7b61ff, 0 2px 0 #6a52e5, 0 3px 0 #5a45cc,
-    0 4px 0 #4a38b2, 0 5px 0 #3a2b99, 0 6px 1px rgba(0, 0, 0, 0.1),
-    0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
-    0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
+  text-shadow:
+    0 1px 0 #7b61ff,
+    0 2px 0 #6a52e5,
+    0 3px 0 #5a45cc,
+    0 4px 0 #4a38b2,
+    0 5px 0 #3a2b99,
+    0 6px 1px rgba(0, 0, 0, 0.1),
+    0 0 5px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    0 3px 5px rgba(0, 0, 0, 0.2),
+    0 5px 10px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.2),
+    0 20px 20px rgba(0, 0, 0, 0.15);
 }
 
 .floating {
@@ -318,12 +337,24 @@
 
 @keyframes glow-text {
   from {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #7b61ff, 0 0 20px #7b61ff,
-      0 0 25px #7b61ff, 0 0 30px #7b61ff, 0 0 35px #7b61ff;
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 15px #7b61ff,
+      0 0 20px #7b61ff,
+      0 0 25px #7b61ff,
+      0 0 30px #7b61ff,
+      0 0 35px #7b61ff;
   }
   to {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #9d8cff,
-      0 0 40px #9d8cff, 0 0 50px #9d8cff, 0 0 60px #9d8cff, 0 0 70px #9d8cff;
+    text-shadow:
+      0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 30px #9d8cff,
+      0 0 40px #9d8cff,
+      0 0 50px #9d8cff,
+      0 0 60px #9d8cff,
+      0 0 70px #9d8cff;
   }
 }
 
@@ -333,12 +364,24 @@
 
 @keyframes glow-text-dark {
   from {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #7b61ff, 0 0 20px #7b61ff,
-      0 0 25px #7b61ff, 0 0 30px #7b61ff, 0 0 35px #7b61ff;
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 15px #7b61ff,
+      0 0 20px #7b61ff,
+      0 0 25px #7b61ff,
+      0 0 30px #7b61ff,
+      0 0 35px #7b61ff;
   }
   to {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #9d8cff,
-      0 0 40px #9d8cff, 0 0 50px #9d8cff, 0 0 60px #9d8cff, 0 0 70px #9d8cff;
+    text-shadow:
+      0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 30px #9d8cff,
+      0 0 40px #9d8cff,
+      0 0 50px #9d8cff,
+      0 0 60px #9d8cff,
+      0 0 70px #9d8cff;
   }
 }
 
@@ -404,7 +447,7 @@
 }
 
 .dark .glow-button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -2px;
   left: -2px;
@@ -422,7 +465,7 @@
 }
 
 .dark .glow-button::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -435,7 +478,8 @@
 
 /* Subtle gradient background for dark mode */
 .dark .gradient-bg {
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle at top right,
       hsla(270, 60%, 15%, 0.5),
       transparent 70%
@@ -501,7 +545,9 @@
 .joke-transition-enter-active {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
+  transition:
+    opacity 300ms,
+    transform 300ms;
 }
 .joke-transition-exit {
   opacity: 1;
@@ -510,5 +556,7 @@
 .joke-transition-exit-active {
   opacity: 0;
   transform: translateY(-10px);
-  transition: opacity 300ms, transform 300ms;
+  transition:
+    opacity 300ms,
+    transform 300ms;
 }

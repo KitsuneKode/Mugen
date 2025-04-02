@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Send,
@@ -8,26 +8,26 @@ import {
   Loader2,
   Search,
   Database,
-} from "lucide-react";
+} from 'lucide-react';
 
-import { motion } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
-import { Button } from "./ui/button";
-import { useChat } from "@ai-sdk/react";
-import { Textarea } from "./ui/textarea";
-import { toast } from "sonner";
-import { usePathname } from "next/navigation";
-import { PromptSuggestions } from "./prompt-suggestions";
-import { TagSelector } from "./tag-selector";
+import { motion } from 'framer-motion';
+import { useRef, useEffect, useState } from 'react';
+import { Button } from './ui/button';
+import { useChat } from '@ai-sdk/react';
+import { Textarea } from './ui/textarea';
+import { toast } from 'sonner';
+import { usePathname } from 'next/navigation';
+import { PromptSuggestions } from './prompt-suggestions';
+import { TagSelector } from './tag-selector';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./ui/tooltip";
-import ReactMarkdown from "react-markdown";
-import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
+} from './ui/tooltip';
+import { cn } from '@/lib/utils';
+import { useSession } from 'next-auth/react';
+import { ChatBubble } from './chat-bubble';
 
 // type Message = {
 // role: "user" | "assistant";
@@ -96,11 +96,11 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
   // };
 
   useEffect(() => {
-    if (pathname === "/" && !session?.data?.user.id) {
+    if (pathname === '/' && !session?.data?.user.id) {
       setMessages([
         {
-          id: "jdhakhdkas",
-          role: "assistant",
+          id: 'jdhakhdkas',
+          role: 'assistant',
           content:
             "Hello! I'm your Brain Assistant. I can help you only if you are logged in with your Second Brain account. Please log in to get started.",
         },
@@ -118,12 +118,12 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
       setMessages((prev) => [
         ...prev,
         {
-          id: "error",
-          role: "assistant",
-          content: "An error occurred. Please try again.",
+          id: 'error',
+          role: 'assistant',
+          content: 'An error occurred. Please try again.',
         },
       ]);
-      toast.error("An error occurred. Please try again.");
+      toast.error('An error occurred. Please try again.');
     }
   }, [error, setMessages]);
 
@@ -132,7 +132,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
     if (messagesEndRef.current && chatContainerRef.current) {
       chatContainerRef.current.scrollTo({
         top: chatContainerRef.current.scrollHeight,
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
   }, [messages]);
@@ -144,8 +144,8 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
   };
   const handlePromptSelect = (prompt: string) => {
     append({
-      id: "cjasdbakhdoacnlasdnl",
-      role: "user",
+      id: 'cjasdbakhdoacnlasdnl',
+      role: 'user',
       content: prompt,
     });
   };
@@ -153,7 +153,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
   return (
     <div
       className={`max-w-3xl mx-auto max-h-screen ${
-        !movement ? "md:min-w-[60%] min-w-[100%]" : ""
+        !movement ? 'md:min-w-[60%] min-w-[100%]' : ''
       }`}
     >
       <motion.div
@@ -167,7 +167,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
             rotate: {
               repeat: Infinity,
               duration: 2,
-              ease: "easeInOut",
+              ease: 'easeInOut',
             },
             opacity: { duration: 0.5 },
             y: { duration: 0.5 },
@@ -176,9 +176,9 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
         whileHover={{
           rotate: 0,
           scale: movement ? 1.1 : 1.05,
-          boxShadow: "0 8px 30px hsl(var(--primary)/0.45)",
+          boxShadow: '0 8px 30px hsl(var(--primary)/0.45)',
           transition: {
-            type: "spring",
+            type: 'spring',
             stiffness: 300,
           },
         }}
@@ -194,92 +194,41 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
         <div
           ref={chatContainerRef}
           className={`h-96 overflow-y-auto scroll-smooth ${
-            !movement ? "h-[60vh]" : ""
+            !movement ? 'h-[60vh]' : ''
           }`}
         >
           <div className="p-4 space-y-4">
             {messages.map((message, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{
-                  duration: 0.1,
-                  type: "tween",
-                }}
-                className={`flex ${
-                  message.role === "user" ? "justify-end" : "justify-start"
-                }`}
-              >
-                <motion.div
-                  className={`
-                    flex gap-3 max-w-[80%] rounded-lg p-3
-                    ${
-                      message.role === "user"
-                        ? "bg-primary text-primary-foreground ml-auto"
-                        : "bg-secondary text-secondary-foreground"
-                    }
-                  `}
-                >
-                  {message.role === "assistant" && (
-                    <div className="h-5 w-5 mt-1 shrink-0">
-                      <Bot className="h-5 w-5" />
-                    </div>
-                  )}
-                  <div ref={messagesEndRef} className="flex items-center gap-1">
-                    <div>
-                      <ReactMarkdown>{message.content}</ReactMarkdown>
-                      {message.role === "assistant" &&
-                        index === messages.length - 1 &&
-                        (status === "streaming" || status === "submitted") && (
-                          <div className="inline-flex items-center gap-1 ml-1">
-                            <div className="w-1.5 h-1.5 bg-current rounded-full animate-ping [animation-delay:-0.3s] opacity-75" />
-                            <div className="w-1.5 h-1.5 bg-current rounded-full animate-ping [animation-delay:-0.15s] opacity-85" />
-                            <div className="w-1.5 h-1.5 bg-current rounded-full animate-ping [animation-delay:-0.21s] opacity-90" />
-                          </div>
-                        )}
-                    </div>
-                  </div>
-                  {message.role === "user" && (
-                    <div className="h-5 w-5 mt-1 shrink-0">
-                      <User className="h-5 w-5" />
-                    </div>
-                  )}
-                </motion.div>
-              </motion.div>
+              <ChatBubble
+                key={message.id || index}
+                message={message}
+                isLoading={
+                  message.role === 'assistant' &&
+                  index === messages.length - 1 &&
+                  (status === 'streaming' || status === 'submitted')
+                }
+                isLastMessage={index === messages.length - 1}
+              />
             ))}
 
-            {status === "submitted" &&
-              messages[messages.length - 1]?.role !== "assistant" && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{
-                    duration: 0.1,
-                    type: "tween",
+            {status === 'submitted' &&
+              messages[messages.length - 1]?.role !== 'assistant' && (
+                <ChatBubble
+                  message={{
+                    id: 'loading',
+                    role: 'assistant',
+                    content: '',
+                    parts: [],
                   }}
-                  className="flex justify-start"
-                >
-                  <div className="flex gap-3 max-w-[80%] rounded-lg p-3 bg-secondary text-secondary-foreground">
-                    <div className="h-5 w-5 mt-1 shrink-0">
-                      <Bot className="h-5 w-5" />
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="inline-flex items-center gap-1">
-                        <div className="w-1.5 h-1.5 bg-current rounded-full animate-ping [animation-delay:-0.3s] opacity-75" />
-                        <div className="w-1.5 h-1.5 bg-current rounded-full animate-ping [animation-delay:-0.15s] opacity-85" />
-                        <div className="w-1.5 h-1.5 bg-current rounded-full animate-ping [animation-delay:-0.21s] opacity-90" />
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
+                  isLoading={true}
+                />
               )}
           </div>
 
           <div
             className={cn(
-              "top-2/5 justify-center w-full border-2 mx-auto px-auto py-2 rounded-3xl flex sticky flex-col",
-              (messages.length > 1 || status === "submitted") && "md:hidden",
+              'top-2/5 justify-center w-full border-2 mx-auto px-auto py-2 rounded-3xl flex sticky flex-col',
+              (messages.length > 1 || status === 'submitted') && 'md:hidden'
             )}
           >
             <div className="mb-6 text-center text-primary font-space-grotesk">
@@ -308,10 +257,10 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
             <Textarea
               rows={3}
               value={input}
-              disabled={status !== "ready" || error != null}
-              autoFocus={pathname === "/" ? false : true}
+              disabled={status !== 'ready' || error != null}
+              autoFocus={pathname === '/' ? false : true}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
+                if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
                   handleSubmit();
                 }
@@ -332,8 +281,8 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
                         size="icon"
                         onClick={() => setSearch(!search)}
                         className={cn(
-                          "h-8 w-8 p-0 rounded-md",
-                          search && "bg-primary/10 text-primary",
+                          'h-8 w-8 p-0 rounded-md',
+                          search && 'bg-primary/10 text-primary'
                         )}
                       >
                         <Search className="h-4 w-4" />
@@ -348,8 +297,8 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
                         variant="ghost"
                         size="icon"
                         className={cn(
-                          "h-8 w-8 p-0 rounded-md",
-                          queryKnowledgeBase && "bg-primary/10 text-primary",
+                          'h-8 w-8 p-0 rounded-md',
+                          queryKnowledgeBase && 'bg-primary/10 text-primary'
                         )}
                         onClick={() =>
                           setQueryKnowledgeBase(!queryKnowledgeBase)
@@ -359,7 +308,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      {queryKnowledgeBase ? "Disable" : "Enable"} Knowledge Base
+                      {queryKnowledgeBase ? 'Disable' : 'Enable'} Knowledge Base
                       Query
                     </TooltipContent>
                   </Tooltip>
@@ -407,7 +356,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
           </div>
 
           {/* Submit/Loading/Error buttons */}
-          {(status === "submitted" || status === "streaming") && (
+          {(status === 'submitted' || status === 'streaming') && (
             <Button
               onClick={() => stop()}
               className="absolute right-6 bottom-6 z-10"
@@ -415,7 +364,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
               <Loader2 className="h-5 w-5 animate-spin" />
             </Button>
           )}
-          {status === "ready" && !error && (
+          {status === 'ready' && !error && (
             <Button
               type="submit"
               className="absolute right-6 bottom-6 z-10"

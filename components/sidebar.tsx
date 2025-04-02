@@ -33,7 +33,7 @@ export default function Sidebar() {
   ];
 
   const handleChatClick = () => {
-    toast.info("Coming soon", {
+    toast.info("Chat popup modal coming soon", {
       icon: <Brain className="h-4 w-4 " />,
     });
   };
