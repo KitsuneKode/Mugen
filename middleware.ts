@@ -17,6 +17,9 @@ const withAuth = async (req: NextRequestWithAuth) => {
 };
 
 export async function middleware(req: NextRequestWithAuth) {
+  if (req.nextUrl.pathname === "/api/signup") {
+    return NextResponse.next(); // Skip the middleware logic for this path
+  }
   return await withAuth(req);
 }
 
