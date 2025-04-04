@@ -96,6 +96,7 @@ export function AddContentDialog({
         data.link = formData.get("tweet-url") as string;
         break;
       case "youtube":
+        data.link = (formData.get("video-url") as string).split("&")[0];
       case "instagram":
       case "reddit":
         data.link = formData.get("video-url") as string;
