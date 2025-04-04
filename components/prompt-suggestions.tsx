@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 interface PromptSuggestionsProps {
   onSelectPrompt: (prompt: string) => void;
+  userId: string | undefined;
 }
 
 const PROMPT_SUGGESTIONS = [
@@ -12,7 +13,10 @@ const PROMPT_SUGGESTIONS = [
   "What was the youtube video on AI agents that got 100k views?",
 ];
 
-export function PromptSuggestions({ onSelectPrompt }: PromptSuggestionsProps) {
+export function PromptSuggestions({
+  onSelectPrompt,
+  userId,
+}: PromptSuggestionsProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -25,6 +29,7 @@ export function PromptSuggestions({ onSelectPrompt }: PromptSuggestionsProps) {
             key={index}
             variant="outline"
             size="sm"
+            disabled={!userId}
             className="text-xs bg-card hover:bg-secondary/80 transition-colors"
             onClick={() => {
               onSelectPrompt(prompt);

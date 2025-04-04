@@ -231,7 +231,10 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
               provide relevant answers.
             </div>
 
-            <PromptSuggestions onSelectPrompt={handlePromptSelect} />
+            <PromptSuggestions
+              userId={session?.data?.user.id}
+              onSelectPrompt={handlePromptSelect}
+            />
           </div>
           <div ref={messagesEndRef} />
         </div>
@@ -270,6 +273,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
                         type="button"
                         variant="ghost"
                         size="icon"
+                        disabled={!session?.data?.user.id}
                         onClick={() => setSearch(!search)}
                         className={cn(
                           "h-8 w-8 p-0 rounded-md",
@@ -286,6 +290,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
                       <Button
                         type="button"
                         variant="ghost"
+                        disabled={!session?.data?.user.id}
                         size="icon"
                         className={cn(
                           "h-8 w-8 p-0 rounded-md",
@@ -332,6 +337,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
                           <Button
                             variant="ghost"
                             size="sm"
+                            disabled={!session?.data?.user.id}
                             className="h-4 w-4 p-0 hover:bg-transparent"
                             onClick={() => handleTagSelect(tag)}
                           >
@@ -359,7 +365,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
             <Button
               type="submit"
               className="absolute right-6 bottom-6 z-10"
-              disabled={!input.trim()}
+              disabled={!input.trim() || !session?.data?.user?.id}
             >
               <Send className="h-5 w-5" />
             </Button>

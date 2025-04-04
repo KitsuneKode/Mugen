@@ -39,11 +39,7 @@ export function TagSelector({
         "Selecting Tags will make your search restricted to tags. If you don't know which tag to choose, Please keep it empty",
         { duration: 10000 },
       );
-      setFirstOpen(false);
     }
-  }, [open, firstOpen]);
-
-  useEffect(() => {
     const setTags = async () => {
       const tags = await getUserTags(Number(session.data?.user.id));
       //@ts-ignore
@@ -53,12 +49,13 @@ export function TagSelector({
         userTags.length > 0 ? `${userTags.length} tags found` : "No tags found",
       );
       setAvailableTags(userTags);
+      setFirstOpen(false);
     };
 
-    if (firstOpen && session.data?.user.id && !availableTags) {
+    if (firstOpen && open && session.data?.user.id && !availableTags) {
       setTags();
     }
-  }, [session.data?.user, firstOpen, availableTags]);
+  }, [session.data?.user, firstOpen, open, availableTags]);
 
   const handleTagSelect = (tag: string) => {
     if (selectedTags.includes(tag)) {
@@ -77,6 +74,7 @@ export function TagSelector({
           variant="ghost"
           role="combobox"
           aria-expanded={open}
+          disabled={!session.data?.user.id}
           className={cn(
             "justify-between",
             iconOnly && "w-8 h-8 p-0",
