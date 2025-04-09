@@ -115,6 +115,7 @@ export function AddContentDialog({
 
       const id = toast.success("Content added successfully");
 
+      onOpenChange(false);
       router.refresh();
 
       const ingestData: {
