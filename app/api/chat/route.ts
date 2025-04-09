@@ -21,14 +21,13 @@ export async function POST(req: Request) {
       tags,
       userId: session.user.id,
     })) as queryResponseObject[];
-
-    console.log(queryResponse);
   }
 
+  console.log(queryDB);
   const result = getStream({
     messages,
     //@ts-ignore
-    vextorSearchEnabled: queryDB,
+    queryDB,
     search,
     //@ts-ignore
     queryResponse,

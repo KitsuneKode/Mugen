@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { getMyPrivateBrainsNames, shareBrain } from '@/app/actions/lib';
-import { Button } from '@/components/ui/button';
+import { getMyPrivateBrainsNames, shareBrain } from "@/app/actions/lib";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { session } from '@/lib/auth';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Brain, Copy, Globe, RefreshCw, Share2 } from 'lucide-react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { session } from "@/lib/auth";
+import { AnimatePresence, motion } from "framer-motion";
+import { Brain, Copy, Globe, RefreshCw, Share2 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface ShareBrainDialogProps {
   open: boolean;
@@ -32,9 +32,10 @@ export function ShareBrainDialog({
   const [selectedBrain, setSelectedBrain] = useState<number | null>(null);
   const [isPublic, setIsPublic] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const [publicLink, setPublicLink] = useState('');
+  const [publicLink, setPublicLink] = useState("");
   const [brains, setBrains] = useState<{ id: number; name: string }[]>([]);
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const session = useSession();
   const userId = (session.data as session)?.user?.id;
 
@@ -45,21 +46,21 @@ export function ShareBrainDialog({
       if (response) {
         setBrains(response);
       } else {
-        toast.error('Failed to fetch Brains');
+        toast.error("Failed to fetch Brains");
       }
     };
-    if (session.status === 'authenticated') {
+    if (session.status === "authenticated") {
       fetchBrains();
     }
 
     if (!open) {
-      setPublicLink('');
+      setPublicLink("");
       setSelectedBrain(null);
       setIsPublic(false);
     }
 
     return () => {
-      setPublicLink('');
+      setPublicLink("");
       setSelectedBrain(null);
       setIsPublic(false);
     };
@@ -67,21 +68,23 @@ export function ShareBrainDialog({
 
   const handleShare = async () => {
     try {
+      setLoading(true);
       const response = await shareBrain(selectedBrain!, isPublic);
 
       if (response.link) {
-        toast.success('Brain shared successfully');
+        toast.success("Brain shared successfully");
         setPublicLink(response.link);
       }
     } catch (err) {
       console.error(err);
-      toast.error('Failed to share brain');
+      toast.error("Failed to share brain");
     }
+    setLoading(false);
   };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(publicLink);
-    toast.success('Link copied');
+    toast.success("Link copied");
     router.refresh();
   };
 
@@ -98,12 +101,12 @@ export function ShareBrainDialog({
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <Label>
-              Select a Brain{' '}
+              Select a Brain{" "}
               <Button
                 className="ml-2 rounded-full"
                 variant="outline"
                 size="icon"
-                disabled={publicLink !== ''}
+                disabled={publicLink !== ""}
                 onClick={() => setRefresh(!refresh)}
               >
                 <RefreshCw className="w-2 h-2" />
@@ -115,9 +118,9 @@ export function ShareBrainDialog({
                 .reverse()
                 .map((brain) => (
                   <Button
-                    disabled={publicLink !== ''}
+                    disabled={publicLink !== ""}
                     key={brain.id}
-                    variant={selectedBrain === brain.id ? 'default' : 'outline'}
+                    variant={selectedBrain === brain.id ? "default" : "outline"}
                     className="justify-start"
                     onClick={() => setSelectedBrain(brain.id)}
                   >
@@ -142,7 +145,7 @@ export function ShareBrainDialog({
                   <Switch
                     id="public-access"
                     checked={isPublic}
-                    disabled={publicLink !== ''}
+                    disabled={publicLink !== ""}
                     onCheckedChange={setIsPublic}
                   />
                   <Label htmlFor="public-access">Make brain public</Label>
@@ -164,10 +167,19 @@ export function ShareBrainDialog({
                   <Button
                     onClick={handleShare}
                     className="w-full"
-                    disabled={!isPublic}
+                    disabled={!isPublic || loading}
                   >
-                    <Share2 className="mr-2 h-4 w-4" />
-                    Share Brain
+                    {loading ? (
+                      <>
+                        <span className="animate-spin mr-2">⏳</span>
+                        Adding...
+                      </>
+                    ) : (
+                      <>
+                        <Share2 className="mr-2 h-4 w-4" />
+                        Share Brain
+                      </>
+                    )}
                   </Button>
                 )}
 

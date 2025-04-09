@@ -35,7 +35,7 @@ export function TagSelector({
   const session = useSession();
   useEffect(() => {
     if (firstOpen && open) {
-      toast.warning(
+      toast.error(
         "Selecting Tags will make your search restricted to tags. If you don't know which tag to choose, Please keep it empty",
         { duration: 10000 },
       );

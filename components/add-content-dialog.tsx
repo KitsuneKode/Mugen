@@ -138,6 +138,7 @@ export function AddContentDialog({
       toast.dismiss(id);
       toast.success("Content indexed to your Second Brain Embeddings");
     } catch (err) {
+      console.log(err);
       if (axios.isAxiosError(err)) {
         toast.error("Failed to add Content");
       } else {
