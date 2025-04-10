@@ -365,7 +365,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
             <Button
               type="submit"
               className="absolute right-6 bottom-6 z-10"
-              disabled={!input.trim() || !session?.data?.user?.id}
+              disabled={!input || !input.trim() || !session?.data?.user?.id}
             >
               <Send className="h-5 w-5" />
             </Button>

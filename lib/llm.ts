@@ -1,7 +1,6 @@
 import { google } from "@ai-sdk/google";
 import { type Message, streamText } from "ai";
-import { randomUUID } from "node:crypto";
-import { systemPrompt1 as systemPrompt } from "./prompts";
+import { systemPrompt1 } from "./prompts";
 
 export interface queryResponseObject {
   id: string;
@@ -28,10 +27,7 @@ export const getStream = ({
   queryDB,
   userId,
 }: StreamProps) => {
-  const contextMessage: Message = {
-    id: randomUUID(),
-    role: "system",
-    content: `
+  const contextMessage = `
 TAGS USED BY USER: ${tags}
 USERID: userId${userId}
 WEB SEARCH ENABLED: ${search}
@@ -41,18 +37,27 @@ START CONTEXT
 ${JSON.stringify(queryResponse, null, 2)}
 END CONTEXT
 -------------------------
-`,
-  };
+`;
 
-  const finalMessages = [
-    ...messages.slice(0, messages.length - 1), // previous messages
-    contextMessage, // context injection
-    messages[messages.length - 1], // the actual latest user message
-  ];
+  // const finalMessages = [
+  //   ...messages.slice(0, messages.length - 1), // previous messages
+  //   contextMessage, // context injection
+  //   messages[messages.length - 1], // the actual latest user message
+  // ];
+  //
 
-  console.log(finalMessages);
+  const systemPrompt = `
+  ${systemPrompt1}
+
+  ------------------------
+  ADDITIONAL DATA FROM USER(specific to questions)
+    
+  ${contextMessage}
+  -------------------------
+  `;
+
   return streamText({
-    model: google("gemini-2.0-flash-001", {
+    model: google("gemini-2.5-pro-exp-03-25", {
       useSearchGrounding: search,
       dynamicRetrievalConfig: {
         mode: "MODE_DYNAMIC",
@@ -60,6 +65,6 @@ END CONTEXT
       },
     }),
     system: systemPrompt,
-    messages: finalMessages,
+    messages,
   });
 };
