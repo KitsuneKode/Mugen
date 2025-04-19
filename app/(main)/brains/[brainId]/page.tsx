@@ -6,6 +6,8 @@ import PublicBrainEmpty from '@/components/empty-states/empty-brain-contents';
 import type { ContentType } from '@prisma/client';
 import { redirect } from 'next/navigation';
 
+export const revalidate = 60;
+
 interface BrainContents {
   id: number;
   createdAt: Date;

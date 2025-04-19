@@ -5,6 +5,8 @@ import BrainCard from './brain-card';
 import { ContentButtons } from './content-buttons';
 import EmptyBrain from './empty-states/empty-brain';
 
+export const revalidate = 60;
+
 export default async function MyBrains() {
   const session = await getServerSession(authOptions);
 

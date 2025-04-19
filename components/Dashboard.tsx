@@ -5,6 +5,8 @@ import { ContentButtons } from './content-buttons';
 import { ContentCard } from './content-card';
 import EmptyDashboard from './empty-states/empty-dashboard';
 
+export const revalidate = 60;
+
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
 
