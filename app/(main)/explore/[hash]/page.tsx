@@ -7,7 +7,9 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import AnimatedBrain from '@/components/animated-brain';
 
-export const revalidate = 60;
+// Route Segment Config
+export const revalidate = 60; // Revalidate every minute
+export const fetchCache = 'force-cache'; // Use caching when possible
 
 export default async function PublicContentPage({
   params,

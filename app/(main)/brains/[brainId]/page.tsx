@@ -7,6 +7,7 @@ import type { ContentType } from '@prisma/client';
 import { redirect } from 'next/navigation';
 
 export const revalidate = 60;
+export const fetchCache = 'force-cache';
 
 interface BrainContents {
   id: number;
