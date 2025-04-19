@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mugen:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+        UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL}
+        UPSTASH_REDIS_REST_TOKEN: ${UPSTASH_REDIS_REST_TOKEN}
+        UPSTASH_VECTOR_REST_URL: ${UPSTASH_VECTOR_REST_URL}
+        UPSTASH_VECTOR_REST_TOKEN: ${UPSTASH_VECTOR_REST_TOKEN}
+    image: 'mugen-prod:latest'
+    container_name: mugen-app
+    ports:
+      - 3000:3000
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - NEXT_WEBPACK_USEPOLLING=1
