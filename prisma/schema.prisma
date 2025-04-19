@@ -25,6 +25,8 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Chats     Chat[]
+
+  @@index([id])
 }
 
 model Content {
@@ -38,6 +40,8 @@ model Content {
   Brains    Brain[]
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+
+  @@index([id])
 }
 
 model Tag {
@@ -49,6 +53,8 @@ model Tag {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Chat      Chat[]    @relation("ChatTags")
+
+  @@index([tag])
 }
 
 model Brain {
@@ -64,6 +70,8 @@ model Brain {
   Tags        Tag[]     @relation("BrainTags")
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+
+  @@index([share, id, userId])
 }
 
 model Link {
@@ -73,6 +81,8 @@ model Link {
   Brain     Brain    @relation(fields: [brainId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([brainId, hash])
 }
 
 model Chat {
@@ -84,6 +94,8 @@ model Chat {
   tags      Tag[]    @relation("ChatTags")
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId, id])
 }
 
 enum ContentType {

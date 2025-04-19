@@ -1,5 +1,7 @@
-import CTAChatbot from "@/components/call-to-action-chatbox";
-import ChatBot from "@/components/chatbot";
+import CTAChatbot from '@/components/call-to-action-chatbox';
+import ChatBot from '@/components/chatbot';
+
+export const revalidate = 60;
 
 export default function ChatPage() {
   return (

@@ -5,7 +5,9 @@ import PublicBrainEmpty from '@/components/empty-states/empty-brain-contents';
 import { Redirect } from '@/components/redirect';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import AnimatedBrain from '../../../../components/animated-brain';
+import AnimatedBrain from '@/components/animated-brain';
+
+export const revalidate = 60;
 
 export default async function PublicContentPage({
   params,

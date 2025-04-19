@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { Send, Bot, RefreshCcw, Loader2, Search, Database } from "lucide-react";
+import { Send, Bot, RefreshCcw, Loader2, Search, Database } from 'lucide-react';
 
-import { motion } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
-import { Button } from "./ui/button";
-import { useChat } from "@ai-sdk/react";
-import { Textarea } from "./ui/textarea";
-import { toast } from "sonner";
-import { usePathname } from "next/navigation";
-import { PromptSuggestions } from "./prompt-suggestions";
-import { TagSelector } from "./tag-selector";
+import { motion } from 'framer-motion';
+import { useRef, useEffect, useState } from 'react';
+import { Button } from './ui/button';
+import { useChat } from '@ai-sdk/react';
+import { Textarea } from './ui/textarea';
+import { toast } from 'sonner';
+import { usePathname } from 'next/navigation';
+import { PromptSuggestions } from './prompt-suggestions';
+import { TagSelector } from './tag-selector';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./ui/tooltip";
-import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
-import { ChatBubble } from "./chat-bubble";
+} from './ui/tooltip';
+import { cn } from '@/lib/utils';
+import { useSession } from 'next-auth/react';
+import { ChatBubble } from './chat-bubble';
 
 // type Message = {
 // role: "user" | "assistant";
@@ -29,6 +29,8 @@ import { ChatBubble } from "./chat-bubble";
 interface ChatBotProps {
   movement?: boolean;
 }
+
+export const revalidate = 60;
 
 export default function ChatBot({ movement = true }: ChatBotProps) {
   const pathname = usePathname();
@@ -88,11 +90,11 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
   // };
 
   useEffect(() => {
-    if (pathname === "/" && !session?.data?.user.id) {
+    if (pathname === '/' && !session?.data?.user.id) {
       setMessages([
         {
-          id: "jdhakhdkas",
-          role: "assistant",
+          id: 'jdhakhdkas',
+          role: 'assistant',
           content:
             "Hello! I'm your Brain Assistant. I can help you only if you are logged in with your Second Brain account. Please log in to get started.",
         },
@@ -110,12 +112,12 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
       setMessages((prev) => [
         ...prev,
         {
-          id: "error",
-          role: "assistant",
-          content: "An error occurred. Please try again.",
+          id: 'error',
+          role: 'assistant',
+          content: 'An error occurred. Please try again.',
         },
       ]);
-      toast.error("An error occurred. Please try again.");
+      toast.error('An error occurred. Please try again.');
     }
   }, [error, setMessages]);
 
@@ -124,7 +126,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
     if (messagesEndRef.current && chatContainerRef.current) {
       chatContainerRef.current.scrollTo({
         top: chatContainerRef.current.scrollHeight,
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
   }, [messages]);
@@ -136,8 +138,8 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
   };
   const handlePromptSelect = (prompt: string) => {
     append({
-      id: "cjasdbakhdoacnlasdnl",
-      role: "user",
+      id: 'cjasdbakhdoacnlasdnl',
+      role: 'user',
       content: prompt,
     });
   };
@@ -145,7 +147,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
   return (
     <div
       className={`max-w-3xl mx-auto max-h-screen ${
-        !movement ? "md:min-w-[60%] min-w-[100%]" : ""
+        !movement ? 'md:min-w-[60%] min-w-[100%]' : ''
       }`}
     >
       <motion.div
@@ -159,7 +161,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
             rotate: {
               repeat: Infinity,
               duration: 2,
-              ease: "easeInOut",
+              ease: 'easeInOut',
             },
             opacity: { duration: 0.5 },
             y: { duration: 0.5 },
@@ -168,9 +170,9 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
         whileHover={{
           rotate: 0,
           scale: movement ? 1.1 : 1.05,
-          boxShadow: "0 8px 30px hsl(var(--primary)/0.45)",
+          boxShadow: '0 8px 30px hsl(var(--primary)/0.45)',
           transition: {
-            type: "spring",
+            type: 'spring',
             stiffness: 300,
           },
         }}
@@ -186,7 +188,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
         <div
           ref={chatContainerRef}
           className={`h-96 overflow-y-auto scroll-smooth ${
-            !movement ? "h-[60vh]" : ""
+            !movement ? 'h-[60vh]' : ''
           }`}
         >
           <div className="p-4 space-y-4">
@@ -195,20 +197,20 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
                 key={message.id || index}
                 message={message}
                 isLoading={
-                  message.role === "assistant" &&
+                  message.role === 'assistant' &&
                   index === messages.length - 1 &&
-                  (status === "streaming" || status === "submitted")
+                  (status === 'streaming' || status === 'submitted')
                 }
               />
             ))}
 
-            {status === "submitted" &&
-              messages[messages.length - 1]?.role !== "assistant" && (
+            {status === 'submitted' &&
+              messages[messages.length - 1]?.role !== 'assistant' && (
                 <ChatBubble
                   message={{
-                    id: "loading",
-                    role: "assistant",
-                    content: "",
+                    id: 'loading',
+                    role: 'assistant',
+                    content: '',
                     parts: [],
                   }}
                   isLoading={true}
@@ -218,8 +220,8 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
 
           <div
             className={cn(
-              "top-2/5 justify-center w-full border-2 mx-auto px-auto py-2 rounded-3xl flex sticky flex-col",
-              (messages.length > 1 || status === "submitted") && "md:hidden",
+              'top-2/5 justify-center w-full border-2 mx-auto px-auto py-2 rounded-3xl flex sticky flex-col',
+              (messages.length > 1 || status === 'submitted') && 'md:hidden'
             )}
           >
             <div className="mb-6 text-center text-primary font-space-grotesk">
@@ -251,10 +253,10 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
             <Textarea
               rows={3}
               value={input}
-              disabled={status !== "ready" || error != null}
-              autoFocus={pathname === "/" ? false : true}
+              disabled={status !== 'ready' || error != null}
+              autoFocus={pathname === '/' ? false : true}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
+                if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
                   handleSubmit();
                 }
@@ -276,8 +278,8 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
                         disabled={!session?.data?.user.id}
                         onClick={() => setSearch(!search)}
                         className={cn(
-                          "h-8 w-8 p-0 rounded-md",
-                          search && "bg-primary/10 text-primary",
+                          'h-8 w-8 p-0 rounded-md',
+                          search && 'bg-primary/10 text-primary'
                         )}
                       >
                         <Search className="h-4 w-4" />
@@ -293,8 +295,8 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
                         disabled={!session?.data?.user.id}
                         size="icon"
                         className={cn(
-                          "h-8 w-8 p-0 rounded-md",
-                          queryKnowledgeBase && "bg-primary/10 text-primary",
+                          'h-8 w-8 p-0 rounded-md',
+                          queryKnowledgeBase && 'bg-primary/10 text-primary'
                         )}
                         onClick={() =>
                           setQueryKnowledgeBase(!queryKnowledgeBase)
@@ -304,7 +306,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      {queryKnowledgeBase ? "Disable" : "Enable"} Knowledge Base
+                      {queryKnowledgeBase ? 'Disable' : 'Enable'} Knowledge Base
                       Query
                     </TooltipContent>
                   </Tooltip>
@@ -353,7 +355,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
           </div>
 
           {/* Submit/Loading/Error buttons */}
-          {(status === "submitted" || status === "streaming") && (
+          {(status === 'submitted' || status === 'streaming') && (
             <Button
               onClick={() => stop()}
               className="absolute right-6 bottom-6 z-10"
@@ -361,7 +363,7 @@ export default function ChatBot({ movement = true }: ChatBotProps) {
               <Loader2 className="h-5 w-5 animate-spin" />
             </Button>
           )}
-          {status === "ready" && !error && (
+          {status === 'ready' && !error && (
             <Button
               type="submit"
               className="absolute right-6 bottom-6 z-10"

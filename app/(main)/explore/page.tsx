@@ -1,6 +1,8 @@
 import PublicBrains from '@/components/public-brains';
 import { Button } from '@/components/ui/button';
 
+export const revalidate = 60;
+
 export default async function ExplorePage() {
   return (
     <div className="py-24 px-4 max-h-screen overflow-y-auto">
