@@ -164,7 +164,7 @@ export default function Footer() {
             </motion.a>
           </div>
           <div className="text-sm text-muted-foreground">
-            © 2025 Mugen. All rights reserved.
+            © {new Date().getFullYear()} Mugen. All rights reserved.
           </div>
         </motion.div>
       </div>
